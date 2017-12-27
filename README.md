@@ -9,7 +9,7 @@ Please contact dan.yamamoto.evans@gmail.com for quick response to resolve any bu
 
 Please follow the following steps to install NanoBLASTer from source:
 
-Clone NanoBLASTer source code: git clone https://github.com/ /RCP-PCR_CRISPR_KO.git
+Clone NanoBLASTer source code: git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
 Go to the NanoBLASTer source directory: cd RCP-PCR_CRISPR_KO/src 
 Build the NanoBLASTer project: make
 
