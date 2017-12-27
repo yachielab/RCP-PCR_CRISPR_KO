@@ -22,12 +22,15 @@ Setup the codes:
 
 Use the following options to run rcppcr_ko:
 
--in [--input_file] : To specify the name of input files (unprocessed FASTQ format)
--out [--output_file] : To specify the name of Output file (CSV format)
+>-in [--input_file] : To specify the name of input files (unprocessed FASTQ format)
 
--c [--core_num] : To specify the number of CPU cores to run the program (Integer)
--r [--ratio] : The minimum threashold to call mutation profile (0 < ratio < 0.5)
--h, or -?: To print this Help information.
+>-out [--output_file] : To specify the name of Output file (CSV format)
+
+>-c [--core_num] : To specify the number of CPU cores to run the program (Integer)
+
+>-r [--ratio] : The minimum threashold to call mutation profile (0 < ratio < 0.5)
+
+>-h, or -?: To print this Help information.
 
 ## Usage examples
 
