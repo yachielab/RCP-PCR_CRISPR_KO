@@ -1,5 +1,6 @@
 ## RCP-PCR_CRISPR_KO
 Analysis tool for RCP-PCR experiments on CRISPR/Cas9 clonal knock out experiments.
+This tool is for analyzing on local computers. Contact the developer for codes for cluster servers.
 
 Current Version: 1.1
 
@@ -11,16 +12,31 @@ Please contact dan.yamamoto.evans@gmail.com for quick response to resolve any bu
 
 ## Installation
 
-Please follow the following steps to install NanoBLASTer from source:
+Please follow the following steps to install RCP-PCR_KO from source:
 
-Clone NanoBLASTer source code: git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
-Go to the NanoBLASTer source directory: cd RCP-PCR_CRISPR_KO/src 
-Build the NanoBLASTer project: make
+Clone RCP-PCR_CRISPR_KO source code: git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
+Go to the source directory: cd RCP-PCR_CRISPR_KO/rcppcr_ko
+Setup the codes: 
 
 ## Input specifications
 
-Use the following options to run NanoBLASTer:
--C: To specify one of the Parameters: -C10, -C25, or -C50
+Use the following options to run rcppcr_ko:
+
+parser.add_argument('-in','--input_file', action=\
+'store_true', default=False)
+parser.add_argument('-out','--output_file', actio\
+n='store_true', default=False)
+
+parser.add_argument('-r','--ratio', type=int, hel\
+p='Minimum threashold (0 < ratio < 0.5 ) to call \
+mutation profile')
+parser.add_argument('-c','--core_num', type=int, \
+help='Number of cores for multi-processing.')
+
+
+
+
+-in[--input_file]: To specify input fastq files (unprocessed).
 -r: To specify the name of Reference file (FASTA format)
 -i: To specify the name of Reads file (FASTA format)
 -o: To specify the prefix of Output file
