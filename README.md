@@ -1,6 +1,10 @@
-# RCP-PCR_CRISPR_KO: Analysis tool for RCP-PCR experiments on CRISPR/Cas9 clonal knock out experiments.
+## RCP-PCR_CRISPR_KO
+Analysis tool for RCP-PCR experiments on CRISPR/Cas9 clonal knock out experiments.
+
 Current Version: 0.20
+
 Release Date: December 27, 2017
+
 Platform: Linux x64 system
 
 Please contact dan.yamamoto.evans@gmail.com for quick response to resolve any bug or feature update.
