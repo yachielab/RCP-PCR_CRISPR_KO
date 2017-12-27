@@ -22,31 +22,11 @@ Setup the codes:
 
 Use the following options to run rcppcr_ko:
 
-parser.add_argument('-in','--input_file', action=\
-'store_true', default=False)
-parser.add_argument('-out','--output_file', actio\
-n='store_true', default=False)
+-in [--input_file] : To specify the name of input files (unprocessed FASTQ format)
+-out [--output_file] : To specify the name of Output file (CSV format)
 
-parser.add_argument('-r','--ratio', type=int, hel\
-p='Minimum threashold (0 < ratio < 0.5 ) to call \
-mutation profile')
-parser.add_argument('-c','--core_num', type=int, \
-help='Number of cores for multi-processing.')
-
-
-
-
--in[--input_file]: To specify input fastq files (unprocessed).
--r: To specify the name of Reference file (FASTA format)
--i: To specify the name of Reads file (FASTA format)
--o: To specify the prefix of Output file
--k: To specify the size of KMER
--a: To specify the size of ANCHOR
--l: To specify the min number of Clusters
--s: To run the program at higher sensitivity
--n: To specify the Number of reads to be aligned
--g: To specify the interval (or Gap) length between KMERs
--X: To configure NanoBLASTer for less memory using Single index
+-c [--core_num] : To specify the number of CPU cores to run the program (Integer)
+-r [--ratio] : The minimum threashold to call mutation profile (0 < ratio < 0.5)
 -h, or -?: To print this Help information.
 
 ## Usage examples
