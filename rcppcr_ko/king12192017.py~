@@ -17,6 +17,17 @@ args = parser.parse_args()
 print args
 
 
+
+
+
+
+
+
+
+
+
+
+
 def main(seq_dir):
     if not os.path.isdir('Log_%s'%(seq_dir)):
         os.makedirs('Log_%s'%(seq_dir))
@@ -25,7 +36,6 @@ def main(seq_dir):
 
     PATH = os.path.abspath(".")
     Miseqrunname = '12192017-yachielab'
-    
     #print "Split and generate fasta files...."
     #print "perl codes/fastq2fasta.pl Data/%s Data/%s/miseq_data/%s_S1_L001_R1_001.fastq Data/%s/miseq_data/%s_S1_L001_R2_001.fastq\n"% (seq_dir,seq_dir,Miseqrunname,seq_dir,Miseqrunname)
     #os.system("perl codes/fastq2fasta.pl Data/%s Data/%s/miseq_data/%s_S1_L001_R1_001.fastq Data/%s/miseq_data/%s_S1_L001_R2_001.fastq"%(seq_dir,seq_dir,Miseqrunname,seq_dir,Miseqrunname))
