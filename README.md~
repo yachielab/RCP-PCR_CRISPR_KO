@@ -20,13 +20,6 @@ Please follow the following steps to install RCP-PCR_KO from source:
 >
 >Setup the codes: 
 
-### Requirements
-Python 2.7 or later
->Libraries ()
-Perl 
-R 
->Packages ()
-
 ## Input specifications
 
 Use the following options to run rcppcr_ko:
