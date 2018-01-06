@@ -3,7 +3,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-
+my $db =shift;
 my $seq_dir = shift; ##### FULL PATH REQIRED!
 $seq_dir =~ s/\/$//g;
 
@@ -19,14 +19,14 @@ for my $input (@inputs){
 
     $q++ if(!($num % 30));
 
-    my $savefile = $seq_dir . '/blast/sh.primers_blast/primers_blast'.$q.'.sh';
+    my $savefile = $seq_dir . '/blast/sh.blast/primers_blast'.$q.'.sh';
     open SAVE,">>$savefile";
-    
-    my $command = 'blastn -task blastn -strand plus -db /home/t14905dy/projects/RCP-PCR/KO_clone/Data/db/fasta/const-seq.fna -outfmt "10 qseqid sseqid qstart qend sstart send evalue bitscore btop" -gapopen 2 -gapextend 2 ';
-    my $blastsave = $seq_dir . '/blast/out.primers_blast/'.$name.'.blast';
+
+    my $command = 'blastn -task blastn -strand plus -db' .$db.  '-outfmt "10 qseqid sseqid qstart qend sstart send evalue bitscore btop" -gapopen 2 -gapextend 2 ';
+    my $blastsave = $seq_dir . '/blast/out.blast/'.$name.'.blast';
     $command .= '-query '.$input.' -out '.$blastsave;
     print SAVE "$command\n";
-    
+
     $num++;
 
     close SAVE;

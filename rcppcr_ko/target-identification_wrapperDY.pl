@@ -2,6 +2,11 @@
 use strict;
 use Data::Dumper;
 
+my $primers_fasta  = shift;
+my $bar2num_file   = shift;
+my $targets        = shift;
+
+
 my $seq_dir = shift; ##### FULL PATH REQIRED!
 $seq_dir =~ s/\/$//g;
 
@@ -27,9 +32,9 @@ for my $name (keys %$mem){
 
     open SAVE, '>'.$seq_dir.'/QC/sh.identification/'."$save_name\.sh";
 
-    my $command = 'perl /home/t14905dy/projects/RCP-PCR/KO_clone/codes/get_target12082017.pl ' . "$seq_dir $R1_id $R2_id ";
+    my $command = 'perl /home/t14905dy/projects/RCP-PCR/KO_clone/codes/get_target12082017.pl ' . "$primers_fasta $bar2num_file $targets $seq_dir $R1_id $R2_id ";
     $command .= '> '.$seq_dir.'/QC/out.identification/' . "$save_name\.dmp\n";
-    
+
     print SAVE $command;
 
     close SAVE;
