@@ -3,9 +3,9 @@
 use strict;
 use Data::Dumper;
 
-my $primers_fasta  = '/home/t14905dy/projects/RCP-PCR/KO_clone/Data/db/fasta/const-seq.fna';
-my $bar2num_file   = '/home/t14905dy/projects/RCP-PCR/KO_clone/Data/bar2num.txt';
-my $targets        = '/home/t14905dy/projects/RCP-PCR/KO_clone/plate_tag_assignment/targets12192017.csv';
+my $primers_fasta  = shift;
+my $bar2num_file   = shift;
+my $targets        = shift;
 
 
 my $seq_dir = shift; ##### FULL PATH REQIRED!
@@ -331,7 +331,7 @@ sub assign_category(){
 	    chomp;
 	    my @values = split(/,/, $_);
 	    my $_ = $values[0];
-	    my $target_len = $values[1];
+	    my $target_len = length($values[1]);
 	    #print "$_"."$target_len\n";
 
 

@@ -55,6 +55,26 @@ def main(args,script_path):
     print "perl codes/target-identification_wrapperDY.pl %s/Data/%s %s/Data/%s/fragmented_fasta/*\n"%(PATH,out_dir,PATH,out_dir)
     os.system("perl codes/target-identification_wrapperDY.pl %s/Data/%s %s/Data/%s/fragmented_fasta/*"%(PATH,out_dir,PATH,out_dir))
     print '....... Finished\n'
+    (get_)target_info)
+    my $primers_fasta  = '/home/t14905dy/projects/RCP-PCR/KO_clone/Data/db/fasta/const-seq.fna';
+    my $bar2num_file   = '/home/t14905dy/projects/RCP-PCR/KO_clone/Data/bar2num.txt';
+    my $targets        = '/home/t14905dy/projects/RCP-PCR/KO_clone/plate_tag_assignment/targets12192017.csv';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     print "Combine sh.dentification files......"
     print "perl codes/list_qsub.pl %s/Data/%s/QC/sh.identification/* > Log_%s/QC.sh\n"%(PATH,out_dir,out_dir)
