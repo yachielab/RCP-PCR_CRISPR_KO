@@ -12,7 +12,7 @@ from tqdm import tqdm
 import json
 import pprint
 
-def main(dat,info,strand,abundance_threashold,di):
+def main(dat,info,strand,abundance_threashold,di,p):
     big_d = reading(dat)
     info_d= csv2dict(info)
     #pprint.pprint(info_d)
@@ -27,7 +27,7 @@ def main(dat,info,strand,abundance_threashold,di):
         LL2csv(heatmap_d[target],Fname_h)
         LL2csv(bar_d[target],Fname_b)
         PDF_name = ("%s/pdf/%s_plot.pdf"%(di,target))
-        os.system("Rscript codes/rcppcr_ko_heatmap.r %s %s %s"%(Fname_b,Fname_h,PDF_name))
+        os.system("Rscript %srcppcr_ko_heatmap.r %s %s %s"%(p,Fname_b,Fname_h,PDF_name))
 
 
 def get_top_profiles(dat,info,di,abundance_threashold):
@@ -262,4 +262,5 @@ if __name__ == '__main__':
     strand = sys.argv[3] #"Plus" or "Minus"
     abundance_threashold = float(sys.argv[4])#Default = 0.1
     di = sys.argv[5]#Directory name. Defalt "."
-    main(dat,info,strand,abundance_threashold,di)
+    p = sys.argv[6]
+    main(dat,info,strand,abundance_threashold,di,p)

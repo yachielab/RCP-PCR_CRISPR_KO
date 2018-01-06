@@ -17,7 +17,7 @@ for my $file (@files){
 	my $save_name = $1;
 	open SAVE, '>'.$seq_dir.'/QC/sh.count/'."$save_name\.sh";
 	
-	my $command = 'perl ' .$pth.'count_read_v2.pl ' . "$file ";
+	my $command = 'perl' .$pth.'count_read_v2.pl ' . "$file ";
 	$command .= '> '.$seq_dir.'/QC/out.count/' . "$save_name\.dmp\n";
 	
 	print SAVE $command;

@@ -17,8 +17,6 @@ my $R2_id = shift;
 my $seq_DB  = &get_seq($primers_fasta);
 my $bar2num = &get_bar2num($bar2num_file);
 
-
-
 my $primers_R1_blast = $seq_dir.'/blast/out.blast/'. $R1_id.'.blast';
 my $primers_R2_blast = $seq_dir.'/blast/out.blast/'. $R2_id.'.blast';
 my $fasta_R1         = $seq_dir.'/fragmented_fasta/'. $R1_id.'.fna';
@@ -29,10 +27,9 @@ $seq_reads->{R1} = &get_seq($fasta_R1);
 $seq_reads->{R2} = &get_seq($fasta_R2);
 
 #print Dumper $seq_reads;
-#die
+
 
 my @files = ($primers_R1_blast,$primers_R2_blast);
-
 
 my $data;
 for my $file (@files){
@@ -44,22 +41,24 @@ for my $file (@files){
 
     open FILE,$file;
     while(<FILE>){
-      chomp;
-	     my @array = split /\,/,$_;
-	     if($#array>5){
-	        my ($read,$template,$str_on_read,$end_on_read,$str,$end,$evalue,$btop) = @array[0,1,2,3,4,5,6,8];
-          if($str_on_read<$end_on_read && $str == 1 && $end == $seq_DB->{$template}->{length}){ ########## THINK ABOUT THIS
-        		my $element;
-        		$element->{str}    = $str_on_read;
-        		$element->{end}    = $end_on_read;
-        		$element->{evalue} = $evalue;
-        		$element->{btop}   = $btop;
-        		$element->{Target_s}=$str;
-        		$element->{Target_e}=$end;
-        		$data->{$read}->{$read_direction}->{$template} = $element;
-	           }
-	          }
-          }
+	chomp;
+	my @array = split /\,/,$_;
+	if($#array>5){
+	    my ($read,$template,$str_on_read,$end_on_read,$str,$end,$evalue,$btop) =
+		@array[0,1,2,3,4,5,6,8];
+
+	    if($str_on_read<$end_on_read && $str == 1 && $end == $seq_DB->{$template}->{length}){ ########## THINK ABOUT THIS
+		my $element;
+		$element->{str}    = $str_on_read;
+		$element->{end}    = $end_on_read;
+		$element->{evalue} = $evalue;
+		$element->{btop}   = $btop;
+		$element->{Target_s}=$str;
+		$element->{Target_e}=$end;
+		$data->{$read}->{$read_direction}->{$template} = $element;
+	    }
+	}
+    }
     close FILE;
 }
 
@@ -91,7 +90,6 @@ while(my($read,$value) = each %$data){
     my $P2_num = ($P2_seq && length($P2_seq) < 12)? &barcode_matching($bar2num,$P2_seq):0;
     my $R_num  = ($R_seq  && length($R_seq)  < 12)? &barcode_matching($bar2num,$R_seq) :0;
     my $C_num  = ($C_seq  && length($C_seq)  < 12)? &barcode_matching($bar2num,$C_seq) :0;
-
 
 
     if($category && $P1_num*$P2_num*$R_num*$C_num){
@@ -226,8 +224,10 @@ my $stat   = 'N_A';
 sub barcode_matching(){
     my $bar2num = shift;
     my $seq     = shift;
+
     my @bar_count;
     for my $key (keys %$bar2num){
+
         my $count;
         for(my $k=0; $k<length($key)-1; $k++){
             my $k_nuc = substr $key,$k,2;
@@ -246,18 +246,15 @@ sub barcode_matching(){
         }
 
         my @array = sort{$b <=> $a} values %$count;
-        #print Dumper @array;
         my $max_count = shift @array;
         my $element;
         $element->{bar} = $key;
-        $element->{max} = $max_count||0;
-        #print Dumper $element;
+        $element->{max} = $max_count;
         push @bar_count, $element;
     }
     my $val;
 
-    @bar_count = sort{ $b->{max} <=> $a->{max}} @bar_count;
-    #print Dumper @bar_count;
+    @bar_count = sort{$b->{max} <=> $a->{max}} @bar_count;
     if($bar_count[0]->{max} == $bar_count[1]->{max}){
         $val = 0;
     }elsif($bar_count[0]->{max}>5){ ########## THINK ABOUT THIS THRESHOLD
@@ -266,7 +263,7 @@ sub barcode_matching(){
     }else{
         $val = 0;
     }
-    #print $val ."\n";
+
     return $val;
 }
 
@@ -331,42 +328,42 @@ sub assign_category(){
 	open FILE,$targets;
 	while(<FILE>){
 	    chomp;
-	    my @values = split(/,/,$_);
-	    my $nm = $values[0];
+	    my @values = split(/,/, $_);
+	    my $_ = $values[0];
 	    my $target_len = length($values[1]);
-	    #print "$nm"."  $target_len\n";
+	    #print "$_"."$target_len\n";
 
-	    if(exists($R1->{$nm."_Frd"}) && exists($R2->{$nm."_Rvs"}) && exists($R1->{"DBU1-primer"}) && exists($R2->{"DBD2-primer"})){
 
-        #print Dumper $R1;
+	    if(exists($R1->{$_."_Frd"}) && exists($R2->{$_."_Rvs"}) && exists($R1->{"DBU1-primer"}) && exists($R2->{"DBD2-primer"})){
+		if($R1->{'PS1.0-primer'}->{end} < $R1->{$_."_Frd"}->{str} && $R1->{$_."_Frd"}->{str} < 70 &&
+		   $R2->{'PS2.0-primer'}->{end} < $R2->{$_."_Rvs"}->{str} && $R2->{$_."_Rvs"}->{str} < 70){
 
-         if($R1->{'PS1.0-primer'}->{end} < $R1->{$nm."_Frd"}->{str} && $R1->{$nm."_Frd"}->{str} < 100 &&
-		   $R2->{'PS2.0-primer'}->{end} < $R2->{$nm."_Rvs"}->{str} && $R2->{$nm."_Rvs"}->{str} < 100){
-        $R_seq->{$nm} = substr $seq->{R1},$R1->{'PS1.0-primer'}->{end},$R1->{"DBU1-primer"}->{str}-$R1->{'PS1.0-primer'}->{end}+1-2;
-		    $C_seq->{$nm} = substr $seq->{R2},$R2->{'PS2.0-primer'}->{end},$R2->{"DBD2-primer"}->{str}-$R2->{'PS2.0-primer'}->{end}+1-2;
-		    if(exists($R1->{$nm."_Target"})){ #&& exists($R2->{"c".$_."_Target"})){
+		    $R_seq->{$_} = substr $seq->{R1},$R1->{'PS1.0-primer'}->{end},$R1->{"DBU1-primer"}->{str}-$R1->{'PS1.0-primer'}->{end}+1-2;
+		    $C_seq->{$_} = substr $seq->{R2},$R2->{'PS2.0-primer'}->{end},$R2->{"DBD2-primer"}->{str}-$R2->{'PS2.0-primer'}->{end}+1-2;
+		    if(exists($R1->{$_."_Target"})){ #&& exists($R2->{"c".$_."_Target"})){
+			#print Dumper $R1->{$_."_Target"};
 			#print Dumper $R2->{"c".$_."_Target"};
-			if( $R1->{$nm."_Target"}->{Target_s} ==1 && $R1->{$nm."_Target"}->{Target_e} == $target_len ){
+			if( $R1->{$_."_Target"}->{Target_s} ==1 && $R1->{$_."_Target"}->{Target_e} == $target_len ){
 			    #$R2->{"c".$_."_Target"}->{Target_s} ==1 && $R2->{"c".$_."_Target"}->{Target_e} == $target_len ){
-
-			$locusR1 = $R1->{$nm."_Target"}->{btop};
+			push @Target, $_;
+			$locusR1 = $R1->{$_."_Target"}->{btop};
 			#$locusR2 = $R2->{"c".$_."_Target"}->{btop};
 			$orientation = 1;
-      push @Target, $nm;
 
 			}}
-		    if(exists($R2->{$nm."_Target"}) ){#&& exists($R1->{"c".$_."_Target"})){
-			if( $R2->{$nm."_Target"}->{Target_s} ==1 && $R2->{$nm."_Target"}->{Target_e}==$target_len){ #&&
+		    if(exists($R2->{$_."_Target"}) ){#&& exists($R1->{"c".$_."_Target"})){
+			if( $R2->{$_."_Target"}->{Target_s} ==1 && $R2->{$_."_Target"}->{Target_e}==$target_len){ #&&
                             #$R1->{"c".$_."_Target"}->{Target_s} ==1 && $R1->{"c".$_."_Target"}->{Target_e}==$target_len ){
 			#print Dumper $R1->{"c".$_."_Target"};
 			#print Dumper $R2->{$_."_Target"};
-			$locusR2 = $R1->{$nm."_Target"}->{btop};
+			$locusR2 = $R1->{$_."_Target"}->{btop};
                         #$locusR1 = $R2->{"c".$_."_Target"}->{btop};
 			$orientation = -1;
+			push @Target, $_;
 
-      push @Target, $nm;
 			}}
-		 	}}
+		    #push @Target, $_;
+		}}
 	}
 
 

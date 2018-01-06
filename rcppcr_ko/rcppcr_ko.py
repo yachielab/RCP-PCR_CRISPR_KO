@@ -4,10 +4,18 @@ import glob, os
 import time
 import argparse
 import sys
+import multiprocessing as mp
+import operator
+
+from tqdm import tqdm
 
 def main(args,script_path):
-    out_dir = args.output_name
+    PATH = os.path.abspath(".")
+    script_paths = script_path.split("rcppcr_ko.py")[0]
 
+
+    out_dir = args.output_name
+    """
     if not os.path.isdir('%s'%(out_dir)):
         if not os.path.isdir('%s/Log_%s'%(out_dir,out_dir)):
             os.makedirs('%s/Log_%s'%(out_dir,out_dir))
@@ -21,107 +29,106 @@ def main(args,script_path):
             os.makedirs('%s/workdir_%s/QC'%(out_dir,out_dir))
             os.makedirs('%s/workdir_%s/QC/sh.identification'%(out_dir,out_dir))
             os.makedirs('%s/workdir_%s/QC/out.identification'%(out_dir,out_dir))
+            os.makedirs('%s/workdir_%s/QC/sh.count'%(out_dir,out_dir))
+            os.makedirs('%s/workdir_%s/QC/out.count'%(out_dir,out_dir))
             os.makedirs('%s/workdir_%s/db'%(out_dir,out_dir))
             os.makedirs('%s/workdir_%s/db/fasta'%(out_dir,out_dir))
 
 
-    PATH = os.path.abspath(".")
-    script_paths = script_path.split("rcppcr_ko.py")[0]
 
     target_regions = args.targets
     common = [["DBU1-primer","CCATACGAGCACATTACGGG"],["DBD2-primer","CTTGACTGAGCGACTGAGG"],["PS1.0-primer","TAACTTACGGAGTCGCTCTACG"],["PS2.0-primer","GGATGGGATTCTTTAGGTCCTG"]]
     with open(target_regions,"r") as F:
+        c = 0
         for line  in F:
             c +=1
             cols = line.split(",")
             if c >1:
                 common.append(["%s_Target"%(cols[0]),cols[1]])
                 common.append(["%s_Frd"%(cols[0]),cols[1][:25]])
-                common.append(["%s_Rvs"%(cols[0]),cols[1][-25:]])
-    LL2csv()
+                common.append(["%s_Rvs"%(cols[0]),rev_comp(cols[1][-25:])])
+    LL2 = []
+    for i in common:
+        LL2.append(["c%s"%(i[0]),rev_comp(i[1])])
+    common += LL2
+    LL2fna(common,'%s/workdir_%s/db/fasta/const-seq.fna'%(out_dir,out_dir))
+
+    print "Making BLAST+ database....."
+    os.system("makeblastdb -in %s/workdir_%s/db/fasta/const-seq.fna -dbtype nucl"%(out_dir,out_dir))
+    db = '%s/workdir_%s/db/fasta/const-seq.fna'%(out_dir,out_dir)
 
 
-
-    print sjsj
-    print "Split and generate fasta files...."
+    print "\n\n\n\nSplit and generating fasta files...."
     print "perl %sfastq2fasta.pl %s/workdir_%s %s %s\n"% (script_paths,out_dir,out_dir,args.input_file_R1, args.input_file_R2)
     os.system("perl %sfastq2fasta.pl %s/workdir_%s %s %s\n"% (script_paths,out_dir,out_dir,args.input_file_R1, args.input_file_R2))
     print '....... Finished\n\n'
 
     print "Generate sh.blast files...."
-    print "perl %sprimers_blast_wrapper09212017DY.pl %s %s/%s %s/%s/fragmented_fasta/*\n"%(db,script_paths,PATH,out_dir,PATH,out_dir)
-    os.system("perl %sprimers_blast_wrapper09212017DY.pl %s %s/%s %s/%s/fragmented_fasta/*"%(db,script_paths,PATH,out_dir,PATH,out_dir))
+    print "perl %sprimers_blast_wrapper09212017DY.pl %s %s/%s/workdir_%s %s/%s/workdir_%s/fragmented_fasta/*\n"%(script_paths,db,PATH,out_dir,out_dir,PATH,out_dir,out_dir)
+    os.system("perl %sprimers_blast_wrapper09212017DY.pl %s %s/%s/workdir_%s %s/%s/workdir_%s/fragmented_fasta/*"%(script_paths,db,PATH,out_dir,out_dir,PATH,out_dir,out_dir))
     print '....... Finished\n'
 
-    print args.sge_computing
+    if args.sge_computing < 1:
+        #print "%s/%s/workdir_%s/blast/sh.blast/"%(PATH,out_dir,out_dir)
+        subprocces_sh(args.core_num,"%s/%s/workdir_%s/blast/sh.blast/"%(PATH,out_dir,out_dir))
+    else:
+        print "Combine sh.blast files....."
+        print "perl %slist_qsub.pl %s/%s/workdir_%s/blast/sh.blast/* > %s/%s/Log_%s/sgeBLAST.sh\n"%(script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir)
+        os.system("perl %slist_qsub.pl %s/%s/workdir_%s/blast/sh.blast/* > %s/%s/Log_%s/sgeBLAST.sh"%(script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir))
+        print '....... Finished\n'
 
-    """
-    print "Combine sh.blast files....."
-    print "perl codes/list_qsub.pl %s/Data/%s/blast/sh.primers_blast/* > Log_%s/sgeBLAST.sh\n"%(PATH,out_dir,out_dir)
-    os.system("perl codes/list_qsub.pl %s/Data/%s/blast/sh.primers_blast/* > Log_%s/sgeBLAST.sh"%(PATH,out_dir,out_dir))
-    print '....... Finished\n'
-
-    print "Run sgeBLAST.sh files......"
-    print "sh Log_%s/sgeBLAST.sh\n"%(out_dir)
-    os.system("sh Log_%s/sgeBLAST.sh"%(out_dir))
-    print '....... Finished\n'
+        print "Run sgeBLAST.sh files......"
+        print "sh %s/%s/Log_%s/sgeBLAST.sh\n"%(PATH,out_dir,out_dir)
+        os.system("sh %s/%s/Log_%s/sgeBLAST.sh"%(PATH,out_dir,out_dir))
+        print '....... Finished\n'
 
     print "Generate sh.identification files......."
-    print "perl codes/target-identification_wrapperDY.pl %s %s %s %s/Data/%s %s/Data/%s/fragmented_fasta/*\n"%(PATH,out_dir,PATH,out_dir)
-    os.system("perl codes/target-identification_wrapperDY.pl %s %s %s %s/Data/%s %s/Data/%s/fragmented_fasta/*"%(PATH,out_dir,PATH,out_dir))
-    print '....... Finished\n'
-    my $primers_fasta  = '/home/t14905dy/projects/RCP-PCR/KO_clone/Data/db/fasta/const-seq.fna';
-    my $bar2num_file   = '/home/t14905dy/projects/RCP-PCR/KO_clone/Data/bar2num.txt';
-    my $targets        = '/home/t14905dy/projects/RCP-PCR/KO_clone/plate_tag_assignment/targets12192017.csv';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    print "Combine sh.dentification files......"
-    print "perl codes/list_qsub.pl %s/Data/%s/QC/sh.identification/* > Log_%s/QC.sh\n"%(PATH,out_dir,out_dir)
-    os.system("perl codes/list_qsub.pl %s/Data/%s/QC/sh.identification/* > Log_%s/QC.sh"%(PATH,out_dir,out_dir))
+    print "perl %starget-identification_wrapperDY.pl %s %s/%s/workdir_%s/db/fasta/const-seq.fna %sbar2num.txt %s %s/%s/workdir_%s %s/%s/workdir_%s/fragmented_fasta/*\n"%(script_paths,script_paths,PATH,out_dir,out_dir,script_paths,args.targets,  PATH,out_dir,out_dir,PATH,out_dir,out_dir)
+    os.system("perl %starget-identification_wrapperDY.pl %s %s/%s/workdir_%s/db/fasta/const-seq.fna %sbar2num.txt %s %s/%s/workdir_%s %s/%s/workdir_%s/fragmented_fasta/*"%(script_paths,script_paths,PATH,out_dir,out_dir,script_paths,args.targets,PATH,out_dir,out_dir,PATH,out_dir,out_dir))
     print '....... Finished\n'
 
-    print "Running sgeIdentification.sh files......"
-    print "sh Log_%s/QC.sh\n"%(out_dir)
-    os.system("sh Log_%s/QC.sh"%(out_dir))
-    print '....... Finished\n'
+    if args.sge_computing < 1:
+        #print "%s/%s/workdir_%s/blast/sh.blast/"%(PATH,out_dir,out_dir)
+        subprocces_sh(args.core_num,"%s/%s/workdir_%s/QC/sh.identification/"%(PATH,out_dir,out_dir))
+    else:
+        print "Combine sh.identification files....."
+        print "perl %slist_qsub.pl %s/%s/workdir_%s/QC/sh.dentification/* > %s/%s/Log_%s/sgeQC.sh\n"%(script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir)
+        os.system("perl %slist_qsub.pl %s/%s/workdir_%s/QC/sh.identification/* > %s/%s/Log_%s/sgeQC.sh"%(script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir))
+        print '....... Finished\n'
+
+        print "Run sgeQC.sh files......"
+        print "sh %s/%s/Log_%s/sgeQC.sh\n"%(PATH,out_dir,out_dir)
+        os.system("sh %s/%s/Log_%s/sgeQC.sh"%(PATH,out_dir,out_dir))
+        print '....... Finished\n'
+    """
 
     print "Generate sh.readcounting ......"
-    print "perl codes/read-counting_wrapper09212017DY.pl %s/Data/%s %s/Data/%s/QC/out.identification/*\n"%(PATH,out_dir,PATH,out_dir)
-    os.system("perl codes/read-counting_wrapper09212017DY.pl %s/Data/%s %s/Data/%s/QC/out.identification/*"%(PATH,out_dir,PATH,out_dir))
+    print "perl %sread-counting_wrapper09212017DY.pl %s %s/%s/workdir_%s %s/%s/workdir_%s/QC/out.identification/*\n"%(script_paths,script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir)
+    os.system("perl %sread-counting_wrapper09212017DY.pl %s %s/%s/workdir_%s %s/%s/workdir_%s/QC/out.identification/*\n"%(script_paths,script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir))
     print '....... Finished\n'
 
-    print "Combining sh.readcounting files......"
-    print "perl codes/list_qsub.pl %s/Data/%s/QC/sh.count/* > Log_%s/ReadCount.sh\n"%(PATH,out_dir,out_dir)
-    os.system("perl codes/list_qsub.pl %s/Data/%s/QC/sh.count/* > Log_%s/ReadCount.sh"%(PATH,out_dir,out_dir))
-    print '....... Finished\n'
+    if args.sge_computing < 1:
+        #print "%s/%s/workdir_%s/blast/sh.blast/"%(PATH,out_dir,out_dir)
+        subprocces_sh(args.core_num,"%s/%s/workdir_%s/QC/sh.count/"%(PATH,out_dir,out_dir))
+    else:
+        print "Combine sh.identification files....."
+        print "perl %slist_qsub.pl %s/%s/workdir_%s/QC/sh.count/* > %s/%s/Log_%s/sgeCount.sh\n"%(script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir)
+        os.system("perl %slist_qsub.pl %s/%s/workdir_%s/QC/sh.count/* > %s/%s/Log_%s/sgeCount.sh"%(script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir))
+        print '....... Finished\n'
 
-    print "Running readcount.sh files......"
-    print "sh Log_%s/ReadCount.sh\n"%(out_dir)
-    os.system("qsub Log_%s/ReadCount.sh"%(out_dir))
-    print '....... Finished\n'
+        print "Run sgeCount.sh files......"
+        print "sh %s/%s/Log_%s/sgeCount.sh\n"%(PATH,out_dir,out_dir)
+        os.system("sh %s/%s/Log_%s/sgeCount.sh"%(PATH,out_dir,out_dir))
+        print '....... Finished\n'
+
 
     print "Merging out.count files......"
-    print "perl codes/merge_data.pl %s/Data/%s/QC/out.count/* > Log_%s/merged_count.dmp\n"%(PATH,out_dir,out_dir)
-    os.system("perl codes/merge_data.pl %s/Data/%s/QC/out.count/* > Log_%s/merged_count.dmp"%(PATH,out_dir,out_dir))
+    print "perl %smerge_data.pl  %s/%s/workdir_%s/QC/out.count/* > %s/%s/Log_%s/merged_count.dmp\n"%(script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir)
+    os.system("perl %smerge_data.pl  %s/%s/workdir_%s/QC/out.count/* > %s/%s/Log_%s/merged_count.dmp\n"%(script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir))
     print '....... Finished\n'
 
-    with open("Log_%s/merged_count.dmp"%(out_dir), "rt") as fin:
-        with open("Log_%s/merged_count_forPy_temp.txt"%(out_dir), "wt") as fout:
+    with open("%s/%s/Log_%s/merged_count.dmp"%(PATH,out_dir,out_dir), "rt") as fin:
+        with open("%s/%s/Log_%s/merged_count_forPy_temp.txt"%(PATH,out_dir,out_dir), "wt") as fout:
             c=0
             for line in fin:
                 c+=1
@@ -132,34 +139,82 @@ def main(args,script_path):
     fin.close()
     fout.close()
 
-    with open("Log_%s/merged_count_forPy_temp.txt"%(out_dir), "rt") as fin:
-        with open("Log_%s/merged_count_forPy.txt"%(out_dir), "wt") as fout:
+    with open("%s/%s/Log_%s/merged_count_forPy_temp.txt"%(PATH,out_dir,out_dir), "rt") as fin:
+        with open("%s/%s/Log_%s/merged_count_forPy.txt"%(PATH,out_dir,out_dir), "wt") as fout:
             c=0
             for line in fin:
                 fout.write(line.replace(';', ''))
     fin.close()
     fout.close()
-    os.system("rm Log_%s/merged_count_forPy_temp.txt"%(out_dir))
+    os.system("rm %s/%s/Log_%s/merged_count_forPy_temp.txt"%(PATH,out_dir,out_dir))
     #os.system("rm Log_%s/merged_count.dmp"%(out_dir))
 
 
-    #print "Calling KO ......"
-    #print "python Call_KO.py  Log_%s/merged_count_forPy.txt plate_tag_assignment/target_info_11262017.csv  Plus 0 Log_%s"%(out_dir,out_dir)
-    #os.system("python codes/Call_KO.py  Log_%s/merged_count_forPy.txt plate_tag_assignment/target_info_11262017.csv  Plus 0 Log_%s"%(out_dir,out_dir))
+    print "Calling KO ......"
+    print "python %sCall_KO.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths)
+    os.system("python %sCall_KO.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths))
 
 
 
-
-    """
     print 'Finished running RCP-PCR program suite.'
 
-def LL2csv(LL,name):
+
+
+
+def get_sh(x):
+    files = []
+    lis = os.listdir("%s" %x)
+    for i in lis:
+        if i[-3:] == ".sh" :
+            files.append(i)
+    return files
+
+
+
+def subprocces_sh(core,sh_dir):
+    command_L = get_sh(sh_dir)
+    command_L = ["sh %s%s"%(sh_dir,i) for i in command_L]
+    if core > len(command_L):
+        core = len(command_L)
+    n = len(command_L)/core
+    pool = mp.Pool(core)
+    feed = {}
+    for i in range(core):
+        feed.update({i:[]})
+    lp = len(command_L)
+    ky = range(0,lp)
+    v = 0
+    for i in xrange(lp):
+        feed[v].append(command_L[0])
+        del command_L[0]
+        v +=1
+        if (v==core):
+            v = 0
+    fed = []
+    for i in range(0,core):
+        fed.append(feed[i])
+    print "Dividing and runnig jobs.....",
+    results = pool.map(run_sh,fed)
+    #print "Done"
+    pass
+
+def run_sh(sh_L):
+    for sh in sh_L:
+        print "Running %s......."%(sh)
+        os.system(sh)
+        #print "Done"
+
+
+def LL2fna(LL,name):
     with open(name,"w") as F:
         for L in LL:
-            F.write("%s\n" %  (",").join( [str(i) for i in L]))
+            F.write(">%s\n" %  ("\n").join( [str(i) for i in L]))
     F.close()
 
 
+def rev_comp(seq):
+    complement_dict = {'A':'T','T':'A','G':'C','C':'G'}
+    return "".join([complement_dict[base] for base in reversed(seq)])
 
 
 if __name__ == '__main__':
