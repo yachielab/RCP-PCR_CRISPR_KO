@@ -1,9 +1,77 @@
 #!/usr/bin/env Rscript
+if(require("ggplot2")){
+    #print("ggplot2 is loaded correctly")
+} else {
+    print("trying to install ggplot2...")
+    install.packages("ggplot2")
+    if(require("ggplot2")){
+        print("ggplot2 installed and loaded")
+    } else {
+        stop("could not install ggplot2")
+    }
+}
+
+
+if(require("scales")){
+    #print("scales is loaded correctly")
+} else {
+    print("trying to install scales...")
+    install.packages("scales")
+    if(require("scales")){
+        print("scales installed and loaded")
+    } else {
+        stop("could not install scales")
+    }
+}
+
+if(require("cowplot")){
+    #print("cowplot is loaded correctly")
+} else {
+    print("trying to install cowplot...")
+    install.packages("cowplot")
+    if(require("cowplot")){
+        print("cowplot installed and loaded")
+    } else {
+        stop("could not install cowplot")
+    }
+}
+
+if(require("grid")){
+    #print("grid is loaded correctly")
+} else {
+    print("trying to install grid...")
+    install.packages("grid")
+    if(require("grid")){
+        print("grid installed and loaded")
+    } else {
+        stop("could not install grid")
+    }
+}
+
+
+if(require("gridExtra")){
+    #print("gridExtra is loaded correctly")
+} else {
+    print("trying to install gridExtra...")
+    install.packages("gridExtra")
+    if(require("gridExtra")){
+        print("gridExtra installed and loaded")
+    } else {
+        stop("could not install gridExtra")
+    }
+}
+
 library(ggplot2)
 library(scales) # for muted function
 library(cowplot)
 library(gridExtra)
 library(grid)
+
+
+
+
+
+
 
 args = commandArgs(trailingOnly=TRUE)
 
