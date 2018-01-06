@@ -1,18 +1,11 @@
 #!/usr/bin/perl -w
-  
+
 use strict;
 use Data::Dumper;
 
 my $primers_fasta  = '/home/t14905dy/projects/RCP-PCR/KO_clone/Data/db/fasta/const-seq.fna';
 my $bar2num_file   = '/home/t14905dy/projects/RCP-PCR/KO_clone/Data/bar2num.txt';
-
-
-
-my $tag_assignment = '/home/t14905dy/projects/RCP-PCR/KO_clone/plate_tag_assignment/tag_assignment12192017.csv';
 my $targets        = '/home/t14905dy/projects/RCP-PCR/KO_clone/plate_tag_assignment/targets12192017.csv';
-
-#my $tag_assignment = '/home/t14905dy/projects/RCP-PCR/KO_clone/plate_tag_assignment/tag_assignment11262017.csv';
-#my $targets        = '/home/t14905dy/projects/RCP-PCR/KO_clone/plate_tag_assignment/targets11262017.csv';
 
 
 my $seq_dir = shift; ##### FULL PATH REQIRED!
@@ -23,7 +16,6 @@ my $R2_id = shift;
 
 my $seq_DB  = &get_seq($primers_fasta);
 my $bar2num = &get_bar2num($bar2num_file);
-my $tag_strct = &get_tag($tag_assignment);
 
 my $primers_R1_blast = $seq_dir.'/blast/out.primers_blast/'. $R1_id.'.blast';
 my $primers_R2_blast = $seq_dir.'/blast/out.primers_blast/'. $R2_id.'.blast';
@@ -82,7 +74,7 @@ while(my($read,$value) = each %$data){
     $seq->{R1} = $seq_reads->{R1}->{$read}->{seq};
     $seq->{R2} = $seq_reads->{R2}->{$read}->{seq};
     #Dumper $R1;
-   
+
 
 
     # PS1.0 and PS2.0 at the reasonable positions? (end at <40bp)
@@ -100,9 +92,9 @@ while(my($read,$value) = each %$data){
     my $R_num  = ($R_seq  && length($R_seq)  < 12)? &barcode_matching($bar2num,$R_seq) :0;
     my $C_num  = ($C_seq  && length($C_seq)  < 12)? &barcode_matching($bar2num,$C_seq) :0;
 
-    
+
     if($category && $P1_num*$P2_num*$R_num*$C_num){
-	
+
 	$P1_num = sprintf "%.1f", $P1_num/10;
 	$P1_num =~ s/\.//g;
 	$P2_num = sprintf "%.1f", $P2_num/10;
@@ -114,7 +106,7 @@ while(my($read,$value) = each %$data){
 
        	my ($P_TAG,$R_TAG,$C_TAG) = ("P$P1_num\-P$P2_num","R$R_num","C$C_num");
 	#print "$category\t$P_TAG\t$R_TAG\t$C_TAG\n";
-	    
+
 	if ( $orientation > 0){
 	$data2->{$category}->{$P_TAG}->{$R_TAG}->{$C_TAG}->{$read}->{"Plus"}=$locusR1;
 	#$data2->{$category}->{$P_TAG}->{$R_TAG}->{$C_TAG}->{$read}->{"Minus"}=$locusR2;
@@ -132,10 +124,10 @@ print Dumper $data2;
 
 sub btop_matching(){
     my $mut1 = shift;
-    my $mut2  = shift; 
+    my $mut2  = shift;
     my $len      = shift;
     my $s1   = shift;
-    my $s2    = shift; 
+    my $s2    = shift;
     my @mut_arr;
     #print $main_mut;
     #print $sub_mut;
@@ -155,10 +147,10 @@ sub mut_match(){
     #print $t_size;
     my @del = ( 0 ) x$t_size;
     print @del;
-    
 
 
-    
+
+
 }
 
 
@@ -292,8 +284,8 @@ sub barcode_matching(){
 ############################################################
 # functions
 ###########################################################
- 
- 
+
+
 sub assign_category(){
 
     my $value = shift;
@@ -321,10 +313,10 @@ sub assign_category(){
 	    $P_SEQ2 = substr $seq->{R2},$R2->{'PS2.0-primer'}->{str}-10,9;
 	    $goto1 = 1;
 	}
-    }	
+    }
 
     # Row and Column priming sites from the reasonable positions? (start at <50bp)
-    # Which Target loci? 
+    # Which Target loci?
     my @Target ;
     my $R_seq;
     my $C_seq;
@@ -341,9 +333,9 @@ sub assign_category(){
 	    my $_ = $values[0];
 	    my $target_len = $values[1];
 	    #print "$_"."$target_len\n";
-	    
-	    
-	    if(exists($R1->{$_."_Frd"}) && exists($R2->{$_."_Rvs"}) && exists($R1->{"DBU1-primer"}) && exists($R2->{"DBD2-primer"})){ 
+
+
+	    if(exists($R1->{$_."_Frd"}) && exists($R2->{$_."_Rvs"}) && exists($R1->{"DBU1-primer"}) && exists($R2->{"DBD2-primer"})){
 		if($R1->{'PS1.0-primer'}->{end} < $R1->{$_."_Frd"}->{str} && $R1->{$_."_Frd"}->{str} < 70 &&
 		   $R2->{'PS2.0-primer'}->{end} < $R2->{$_."_Rvs"}->{str} && $R2->{$_."_Rvs"}->{str} < 70){
 
@@ -358,7 +350,7 @@ sub assign_category(){
 			$locusR1 = $R1->{$_."_Target"}->{btop};
 			#$locusR2 = $R2->{"c".$_."_Target"}->{btop};
 			$orientation = 1;
-			
+
 			}}
 		    if(exists($R2->{$_."_Target"}) ){#&& exists($R1->{"c".$_."_Target"})){
 			if( $R2->{$_."_Target"}->{Target_s} ==1 && $R2->{$_."_Target"}->{Target_e}==$target_len){ #&&
@@ -369,7 +361,7 @@ sub assign_category(){
                         #$locusR1 = $R2->{"c".$_."_Target"}->{btop};
 			$orientation = -1;
 			push @Target, $_;
-		       
+
 			}}
 		    #push @Target, $_;
 		}}
@@ -384,19 +376,19 @@ sub assign_category(){
     my $C_SEQ    = 0;
 
     if( scalar @Target  == 1){
-	$category = $Target[0]; 
+	$category = $Target[0];
 	#print $category."\n";
 	$R_SEQ = $R_seq->{$category};
 	$C_SEQ = $C_seq->{$category};
-     
+
 
     }
-	
 
 
 
- 
-    
+
+
+
     return ($category,$P_SEQ1,$P_SEQ2,$R_SEQ,$C_SEQ,$locusR1,$locusR2,$orientation);
 }
 
@@ -466,9 +458,9 @@ sub get_seq(){
 	    }
 	}
 	close FILE;
-	
+
 	while(my($tag,$value) = each %$seq){
-	    $seq->{$tag}->{length} = length $seq->{$tag}->{seq}; 
+	    $seq->{$tag}->{length} = length $seq->{$tag}->{seq};
 	}
     }
 
