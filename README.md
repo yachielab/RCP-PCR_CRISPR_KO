@@ -30,7 +30,7 @@ Use the following options to run rcppcr_ko:
 usage: rcppcr_ko [-h] [-R1 INPUT_FILE_R1] [-R2 INPUT_FILE_R2] [-t TARGETS]
                  [-out OUTPUT_NAME] [-r RATIO] [-c CORE_NUM]
                  [-sge SGE_COMPUTING]
-
+                 
 optional arguments:
   -R1 INPUT_FILE_R1, --input_file_R1 INPUT_FILE_R1
                         Input file of R1.fastq
