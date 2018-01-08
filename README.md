@@ -8,13 +8,14 @@ Release Date: January 7, 2017
 
 Platform: Linux x64 / MacOSX system
 
-Please contact dan.yamamoto.evans@gmail.com for quick response to resolve any bug or feature update.
+Please contact dan.yamamoto.evans[at]gmail.com for quick response to resolve any bug or feature update.
 
 ## Installation
 
 Please follow the following steps to install RCP-PCR_KO from source:
 
 >Clone RCP-PCR_CRISPR_KO source code: git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
+
 
 ### Requirements
 Python version 2.7+ (~2.7.15 reccomended) 
@@ -53,8 +54,8 @@ optional arguments:
   
 ## Usage examples
 
->python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 test/test_R1.fastq -R2 test/test_R2.fastq  -t test/test_target.csv -c 2 
+>python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 PULLPATH/test/test_R1.fastq -R2 PULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2 
 
 ## Contact information
 
-Please send your comments or bug reports to dan.yamamoto.evans@gmail.com
+Please send your comments or bug reports to dan.yamamoto.evans[at]gmail.com
