@@ -34,27 +34,33 @@ usage: rcppcr_ko [-h] [-R1 INPUT_FILE_R1] [-R2 INPUT_FILE_R2] [-t TARGETS]
                  
 optional arguments:
   -R1 INPUT_FILE_R1, --input_file_R1 INPUT_FILE_R1
-                        Input file of R1.fastq
+                        Input fastq file of read1 (eg. R1.fastq)
+  
   -R2 INPUT_FILE_R2, --input_file_R2 INPUT_FILE_R2
-                        Input file of R2.fastq
+                        Input fastq file of read2 (eg. R2.fastq)
+  
   -t TARGETS, --targets TARGETS
-                        Input target informtion in csv format. (see wiki for
-                        detail)
+                        Input target informtion in csv format. (see wiki for detail)
+  
   -out OUTPUT_NAME, --output_name OUTPUT_NAME
+  
   -r RATIO, --ratio RATIO
-                        Minimum threashold (0 < ratio < 0.5 ) to call mutation
-                        profile
+                        Minimum threashold (0 < ratio < 0.5 ) to call mutation profile (Default = 0.1). 
+
   -c CORE_NUM, --core_num CORE_NUM
                         Number of cores for multi-processing on local
                         computer.
+  
   -sge SGE_COMPUTING, --sge_computing SGE_COMPUTING
                         1 if computing on SGE computers.
 
-  -h, --help            show this help message and exit
+  -h, --help            
+                        show this help message and exit
   
 ## Usage examples
 
 >python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 PULLPATH/test/test_R1.fastq -R2 PULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2 
+
 
 ## Contact information
 
