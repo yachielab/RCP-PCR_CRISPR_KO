@@ -1,6 +1,6 @@
 ## RCP-PCR_CRISPR_KO
 Analysis tool for RCP-PCR experiments on CRISPR/Cas9 clonal knock out experiments.
-This tool is for analyzing on local computers. Contact the developer for codes for cluster servers.
+This tool is for analyzing on local/cluster computers. 
 
 Current Version: 1.2
 
