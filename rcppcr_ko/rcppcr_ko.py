@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import glob, os
 import time
 import argparse
@@ -7,7 +6,6 @@ import sys
 import multiprocessing as mp
 import operator
 
-from tqdm import tqdm
 
 def main(args,script_path):
     PATH = os.path.abspath(".")
