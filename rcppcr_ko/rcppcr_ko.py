@@ -223,7 +223,7 @@ if __name__ == '__main__':
     parser.add_argument('-out','--output_name', default="output" )
     parser.add_argument('-r','--ratio', type=int, help='Minimum threashold (0 < ratio < 0.5 ) to call mutation profile',default=0.1)
     parser.add_argument('-c','--core_num', type=int, help='Number of cores for multi-processing on local computer.',default=1)
-    parser.add_argument('-sge','--sge_computing',default=0, type=int, help='1 if computing on SGE computers.',default=0)
+    parser.add_argument('-sge','--sge_computing',default=0, type=int, help='1 if computing on SGE computers.')
     args = parser.parse_args()
     #print args
     error = 0

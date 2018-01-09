@@ -8,9 +8,7 @@ import re
 import os
 import pickle
 import ast
-from tqdm import tqdm
 import json
-import pprint
 
 def main(dat,info,strand,abundance_threashold,di,p):
     big_d = reading(dat)
@@ -124,14 +122,14 @@ def get_top_profiles(dat,info,di,abundance_threashold):
                                     out_dat[target_site].append( ["%s_%s_%s_Profile#%d"%(plate,row,col,prof), char +1,  mut_l[char],COUNTS ])
                                 if mut_l.count("Del") > 0:
                                     if (mut_l.count("Del")%3 != 0):
-                                        Frameshift = "++ (Frameshift)"
+                                        Frameshift = "'++ (Frameshift)"
                                     else:
-                                        Frameshift = "+ (Indel)"
+                                        Frameshift = "'+ (Indel)"
                                 if mut_l.count("Ins") >0:
                                     if (mut_l.count("Ins")%3 != 0):
-                                        Frameshift = "++ (Frameshift)"
+                                        Frameshift = "'++ (Frameshift)"
                                     else:
-                                        Frameshift = "+ (Indel)"
+                                        Frameshift = "'+ (Indel)"
                                 profiles += [Frameshift, round(hit_rat,2)*100,round(error,2)*100 ]
 
 
@@ -140,28 +138,28 @@ def get_top_profiles(dat,info,di,abundance_threashold):
                                 COUNTS -=1
 
 
-                    wt = profiles.count("- (WT)")
-                    frameshift = profiles.count("++ (Frameshift)")
-                    indel = profiles.count("+ (Indel)")
+                    wt = profiles.count("'- (WT)")
+                    frameshift = profiles.count("'++ (Frameshift)")
+                    indel = profiles.count("'+ (Indel)")
 
                     total_profs = wt+frameshift+ indel
 
                     if total_profs == 2:
                         if frameshift ==2:
-                            Well_KO_stat = "+++ (Homo-frameshift)"
+                            Well_KO_stat = "'+++ (Homo-frameshift)"
                         if indel ==2:
-                            Well_KO_stat = "++ (Homo-indel)"
+                            Well_KO_stat = "'++ (Homo-indel)"
                         if wt ==1:
-                            Well_KO_stat = "+ (Hetero)"
+                            Well_KO_stat = "'+ (Hetero)"
                     if total_profs==1:
                         if wt ==1:
-                            Well_KO_stat = "WT"
+                            Well_KO_stat = "'T"
                         if frameshift ==1:
-                            Well_KO_stat = "+++? (Frameshift; 1 profile)"
+                            Well_KO_stat = "'+++? (Frameshift; 1 profile)"
                         if indel ==1:
-                            Well_KO_stat = "++? (Indel; 1 profile)"
+                            Well_KO_stat = "'++? (Indel; 1 profile)"
                     if total_profs > 2:
-                        Well_KO_stat = "?? (Too many profiles)"
+                        Well_KO_stat = "'?? (Too many profiles)"
 
 
 
