@@ -13,7 +13,7 @@ def main(args,script_path):
 
 
     out_dir = args.output_name
-    """
+
     if not os.path.isdir('%s'%(out_dir)):
         if not os.path.isdir('%s/Log_%s'%(out_dir,out_dir)):
             os.makedirs('%s/Log_%s'%(out_dir,out_dir))
@@ -98,7 +98,7 @@ def main(args,script_path):
         print "sh %s/%s/Log_%s/sgeQC.sh\n"%(PATH,out_dir,out_dir)
         os.system("sh %s/%s/Log_%s/sgeQC.sh"%(PATH,out_dir,out_dir))
         print '....... Finished\n'
-    """
+
 
     print "Generate sh.readcounting ......"
     print "perl %sread-counting_wrapper09212017DY.pl %s %s/%s/workdir_%s %s/%s/workdir_%s/QC/out.identification/*\n"%(script_paths,script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir)
@@ -223,9 +223,9 @@ if __name__ == '__main__':
     parser.add_argument('-out','--output_name', default="output" )
     parser.add_argument('-r','--ratio', type=int, help='Minimum threashold (0 < ratio < 0.5 ) to call mutation profile',default=0.1)
     parser.add_argument('-c','--core_num', type=int, help='Number of cores for multi-processing on local computer.',default=1)
-    parser.add_argument('-sge','--sge_computing', type=int, help='1 if computing on SGE computers.',default=0)
+    parser.add_argument('-sge','--sge_computing',default=0, type=int, help='1 if computing on SGE computers.',default=0)
     args = parser.parse_args()
-    print args
+    #print args
     error = 0
     if args.input_file_R1 is False:
         print "Input file error. Please input R1.fastq files as input. Use option; [-R1 example_R1.fastq]."
