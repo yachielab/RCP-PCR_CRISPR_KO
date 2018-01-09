@@ -28,16 +28,16 @@ BLAST+ (blastn version 2.6.0+)
 Use the following options to run rcppcr_ko:
 
 usage:  
-'''
+
 
     PULLPATH/rcppcr_ko/rcppcr_ko.py  
                     [-h] [-R1 INPUT_FILE_R1] [-R2 INPUT_FILE_R2] [-t TARGETS]  
                     [-out OUTPUT_NAME] [-r RATIO] [-c CORE_NUM]  
                     [-sge SGE_COMPUTING]    
-'''
+
 
 optional arguments:  
-'''
+
     
     -R1 INPUT_FILE_R1, --input_file_R1 INPUT_FILE_R1  
                         Input fastq file of read1 (eg. R1.fastq)  
@@ -62,7 +62,7 @@ optional arguments:
   
     -h, --help              
                             Show this help message.  
-'''   
+   
 ## Usage examples
 '''
 python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 PULLPATH/test/test_R1.fastq -R2 PULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2   
