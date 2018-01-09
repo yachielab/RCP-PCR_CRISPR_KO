@@ -50,10 +50,10 @@ optional arguments:
                             Input target informtion in csv format. (see wiki for detail)  
     
     -out OUTPUT_NAME, --output_name OUTPUT_NAME  
-      
+        
     -r RATIO, --ratio RATIO. 
                             Minimum threashold (0 < ratio < 0.5 ) to call mutation profile (Default = 0.1).   
-  
+      
     -c CORE_NUM, --core_num CORE_NUM  
                             Number of cores for multi-processing.  
     
@@ -64,9 +64,7 @@ optional arguments:
                             Show this help message.  
    
 ## Usage examples
-'''
-python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 PULLPATH/test/test_R1.fastq -R2 PULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2   
-'''
+    python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 PULLPATH/test/test_R1.fastq -R2 PULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2   
 
 ## Contact information
 
