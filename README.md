@@ -29,11 +29,13 @@ Use the following options to run rcppcr_ko:
 
 usage:  
 '''
-PULLPATH/rcppcr_ko/rcppcr_ko.py  
-                [-h] [-R1 INPUT_FILE_R1] [-R2 INPUT_FILE_R2] [-t TARGETS]  
-                [-out OUTPUT_NAME] [-r RATIO] [-c CORE_NUM]  
-                [-sge SGE_COMPUTING]    
+
+    PULLPATH/rcppcr_ko/rcppcr_ko.py  
+                    [-h] [-R1 INPUT_FILE_R1] [-R2 INPUT_FILE_R2] [-t TARGETS]  
+                    [-out OUTPUT_NAME] [-r RATIO] [-c CORE_NUM]  
+                    [-sge SGE_COMPUTING]    
 '''
+
 optional arguments:  
 '''
     
