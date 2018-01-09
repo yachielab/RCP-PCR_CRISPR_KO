@@ -39,29 +39,29 @@ usage:
 optional arguments:  
 
     
-    -R1 INPUT_FILE_R1, --input_file_R1 INPUT_FILE_R1  
-                        Input fastq file of read1 (eg. R1.fastq)  
+    -R1 INPUT_FILE_R1, --input_file_R1 INPUT_FILE_R1.  
+        Input fastq file of read1 (eg. R1.fastq)  
                         
-    -R2 INPUT_FILE_R2, --input_file_R2 INPUT_FILE_R2  
-                        Input fastq file of read2 (eg. R2.fastq)  
+    -R2 INPUT_FILE_R2, --input_file_R2 INPUT_FILE_R2.  
+        Input fastq file of read2 (eg. R2.fastq)  
     
   
     -t TARGETS, --targets TARGETS  
-                            Input target informtion in csv format. (see wiki for detail)  
+        Input target informtion in csv format. (see wiki for detail)  
     
-    -out OUTPUT_NAME, --output_name OUTPUT_NAME  
-        
-    -r RATIO, --ratio RATIO. 
-                            Minimum threashold (0 < ratio < 0.5 ) to call mutation profile (Default = 0.1).   
+    -out OUTPUT_NAME, --output_name OUTPUT_NAME.  
+    
+    -r RATIO, --ratio RATIO.   
+        Minimum threashold (0 < ratio < 0.5 ) to call mutation profile (Default = 0.1).   
       
-    -c CORE_NUM, --core_num CORE_NUM  
-                            Number of cores for multi-processing.  
-    
-    -sge SGE_COMPUTING, --sge_computing SGE_COMPUTING  
-                              1 if computing on SGE computers.  
-  
-    -h, --help              
-                            Show this help message.  
+    -c CORE_NUM, --core_num CORE_NUM.  
+        Number of cores for multi-processing.  
+        
+    -sge SGE_COMPUTING, --sge_computing SGE_COMPUTING.  
+        1 if computing on SGE computers.  
+        
+    -h, --help.  
+        Show this help message.  
    
 ## Usage examples
     python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 PULLPATH/test/test_R1.fastq -R2 PULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2   
