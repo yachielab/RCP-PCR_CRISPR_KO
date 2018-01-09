@@ -1,49 +1,69 @@
 ## RCP-PCR_CRISPR_KO
 Analysis tool for RCP-PCR experiments on CRISPR/Cas9 clonal knock out experiments.
-This tool is for analyzing on local computers. Contact the developer for codes for cluster servers.
+This tool is for analyzing on local/cluster computers. 
 
-Current Version: 1.1
+Current Version: 1.2
 
-Release Date: December 27, 2017
+Release Date: January 7, 2017
 
-Platform: Linux x64 system
+Platform: Tested on Linux x64 / MacOSX system
 
-Please contact dan.yamamoto.evans@gmail.com for quick response to resolve any bug or feature update.
+Please contact dan.yamamoto.evans [at] gmail.com for quick response to resolve any bug or feature update.
 
 ## Installation
 
 Please follow the following steps to install RCP-PCR_KO from source:
 
 >Clone RCP-PCR_CRISPR_KO source code: git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
->
->Go to the source directory: cd RCP-PCR_CRISPR_KO/rcppcr_ko
->
->Setup the codes: 
+
 
 ### Requirements
-Python 2.7 or later
->Libraries ()
-Perl 
-R 
->Packages ()
+Python version 2.7+ (2.7 reccomended)   
+Perl version 5  
+R version 3+   
+BLAST+ (blastn version 2.6.0+)  
 
 ## Input specifications
 
 Use the following options to run rcppcr_ko:
 
->-in [--input_file] : To specify the name of input files (unprocessed FASTQ format)
->
->-out [--output_file] : To specify the name of Output file (CSV format)
->
->-c [--core_num] : To specify the number of CPU cores to run the program (Integer)
->
->-r [--ratio] : The minimum threashold to call mutation profile (0 < ratio < 0.5)
->
->-h, or -?: To print this Help information.
+usage:  
 
+
+    PULLPATH/rcppcr_ko/rcppcr_ko.py  
+                    [-h] [-R1 INPUT_FILE_R1] [-R2 INPUT_FILE_R2] [-t TARGETS]  
+                    [-out OUTPUT_NAME] [-r RATIO] [-c CORE_NUM]  
+                    [-sge SGE_COMPUTING]    
+
+
+optional arguments:  
+
+	-R1 INPUT_FILE_R1, --input_file_R1 INPUT_FILE_R1    
+			Input fastq file of read1 (eg. R1.fastq)  
+    
+	-R2 INPUT_FILE_R2, --input_file_R2 INPUT_FILE_R2   
+        	Input fastq file of read2 (eg. R2.fastq)  
+    
+	-t TARGETS, --targets TARGETS   
+		Input target informtion in csv format. (see wiki for detail)  
+    
+	-out OUTPUT_NAME, --output_name OUTPUT_NAME   
+   
+	-r RATIO, --ratio RATIO    
+		Minimum threashold (0 < ratio < 0.5 ) to call mutation profile (Default = 0.1).   
+      
+	-c CORE_NUM, --core_num CORE_NUM   
+		Number of cores for multi-processing.  
+        
+	-sge SGE_COMPUTING, --sge_computing SGE_COMPUTING   
+		1 if computing on SGE computers.  
+        
+	-h, --help    
+		Show this help message.  
+        
 ## Usage examples
-
+    python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 PULLPATH/test/test_R1.fastq -R2 PULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2   
 
 ## Contact information
 
-Please send your comments or bug reports to dan.yamamoto.evans@gmail.com
+Please send your comments or bug reports to dan.yamamoto.evans [at] gmail.com  
