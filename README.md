@@ -14,7 +14,7 @@ Please contact dan.yamamoto.evans [at] gmail.com for quick response to resolve a
 
 Please follow the following steps to install RCP-PCR_KO from source:
 
->Clone RCP-PCR_CRISPR_KO source code: git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
+    Clone RCP-PCR_CRISPR_KO source code: git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
 
 
 ### Requirements
@@ -67,8 +67,8 @@ optional arguments:
 		Show this help message.  
         
 ## Usage examples
-    python ~/GitHub/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 PULLPATH/test/test_R1.fastq -R2 PULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2   
-
+    python FULLPATH/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 FULLPATH/test/test_R1.fastq -R2 FULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2    
+>Change 'FULLPATH' accordingly to your path to the directory.
 ## Contact information
 
 Please send your comments or bug reports to dan.yamamoto.evans [at] gmail.com  
