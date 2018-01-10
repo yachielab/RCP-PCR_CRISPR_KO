@@ -23,6 +23,9 @@ Perl version 5
 R version 3+   
 BLAST+ (blastn version 2.6.0+)  
 
+Before you use;  
+Check that your BLAST+ program path is through. Go to NCBI website and download BLAST+ locally if not present. Reffer the BLAST® Command Line Applications User Manul published by NCBI (https://www.ncbi.nlm.nih.gov/books/NBK279690/).  
+
 ## Input specifications
 
 Use the following options to run rcppcr_ko:
