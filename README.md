@@ -39,7 +39,7 @@ usage:
                     [-sge SGE_COMPUTING]    
 
 
-optional arguments:  
+Required arguments:  
 
 	-R1 INPUT_FILE_R1, --input_file_R1 INPUT_FILE_R1    
 			Input fastq file of read1 (eg. R1.fastq)  
@@ -50,6 +50,8 @@ optional arguments:
 	-t TARGETS, --targets TARGETS   
 		Input target informtion in csv format. (see wiki for detail)  
     
+optional arguments:  
+
 	-out OUTPUT_NAME, --output_name OUTPUT_NAME   
    
 	-r RATIO, --ratio RATIO    
