@@ -67,7 +67,7 @@ optional arguments:
 		Show this help message.  
         
 ## Usage examples
-    python FULLPATH/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 FULLPATH/test/test_R1.fastq -R2 FULLPATH/test/test_R2.fastq  -t test/test_target.csv -c 2    
+    python FULLPATH/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 FULLPATH/test/test_R1.fastq -R2 FULLPATH/test/test_R2.fastq  -t PULLPATH/test/test_target.csv -c 2    
 >Change 'FULLPATH' accordingly to your path to the directory.
 ## Contact information
 
