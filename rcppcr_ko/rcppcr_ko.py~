@@ -151,7 +151,7 @@ def main(args,script_path):
 
     print "Calling KO ......"
     print "python %sCall_KO.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s %s/%s %s "%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths,PATH, args.cell_viability,args.rc_pcr_coordinate)
-    os.system("python %sCall_KO.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s %s/%s %s "%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths,PATH,args.cell_viability ,args.rc_pcr_coordinate))
+    os.system("python %sCall_KO_v0.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s %s/%s %s "%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths,PATH,args.cell_viability ,args.rc_pcr_coordinate))
 
 
     print 'Finished running RCP-PCR program suite.'

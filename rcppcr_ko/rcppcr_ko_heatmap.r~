@@ -75,7 +75,7 @@ library(grid)
 
 args = commandArgs(trailingOnly=TRUE)
 
-group.colors <- c("-" = "#dbdada", "gRNA" = "#80c0e5", "PAM" ="#f79999", "Del" = "#000000", "Ins" = "#7f0114","Mut"="#f5f99f","Ref"="#FFFFFF","- (WT)"="#dbdada","+ (Indel)"="#ffff00","++ (Frameshift)"="#ff6666" )
+group.colors <- c("-" = "#dbdada", "gRNA" = "#80c0e5", "PAM" ="#f79999", "Del" = "#000000", "Ins" = "#7f0114","Mut"="#f5f99f","Ref"="#FFFFFF")
 
 b = read.csv(file=args[1],header=TRUE)
 h = read.csv(file=args[2],header=TRUE)

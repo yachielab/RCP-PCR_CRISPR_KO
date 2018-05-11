@@ -1,0 +1,55 @@
+
+library(ggplot2)
+library(scales) # for muted function
+library(cowplot)
+library(gridExtra)
+library(grid)
+library("data.table")
+
+
+
+
+
+Rank = aggregate(rank(Reads)~Profile, erPSME12_, sum )
+
+rank$x = rank$'rank(Reads)'
+setorder(setDT(rank),-x)[, head(.SD, -5), by = 'rank(Reads)']
+
+
+PSME12 = all_r[which(all_r$Target=='PSME1_sg2'),]
+DATA= PSME12[which(PSME12$Plate=='P01-P01'),]
+
+group.colors <- c('0' = '#999999', '1' = '#E69F00')
+newdata <- DATA[order(-DATA$Reads),]
+rownames(newdata) <- NULL
+newdata$x= rownames(newdata)
+
+newdata = transform(newdata, Rank = as.numeric(x))
+HM = ggplot(newdata, aes(Rank,heatmap))+geom_tile(aes(fill = factor(newdata$Cellv)))+scale_fill_manual(values=group.colors)   +theme(axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank(),legend.position='none')
+
+ BAR = ggplot(newdata, aes(x=Rank,Reads))+geom_bar(stat='identity')+scale_fill_manual(values=group.colors)+scale_y_continuous(expand=c(0,0),breaks=c(2000,4000,6000,8000))+ scale_x_discrete(expand=c(0,0),labels=NULL)+theme_bw()+theme(axis.title.x=element_blank(),axis.text.x=element_blank(), axis.ticks.x=element_blank(),legend.position='none')
+g1 = HM+ theme(plot.margin = unit(c(0, 1, 1, 1), 'cm'))
+g2 = BAR+ theme(plot.margin = unit(c(0.5, 1, 0, 1), 'cm'))
+gg1 <- ggplot_gtable(ggplot_build(g1))
+gg2 <- ggplot_gtable(ggplot_build(g2))
+P = plot_grid(gg2, gg1, align = 'v', nrow = 2, rel_heights = c(5,3.5))
+P
+ggsave('MiSeq01-20-2018_PSME1_sg2_P01_reads.pdf',plot=P,width=4,height=1.8)
+
+
+
+
+
+heatmap
+
+det_PSME12 = rm[which(rm$Target == "PPSME1_sg2"),]
+det_PSME12_P01 = det_PSME12[which(det_PSME12$Plate == "P01-P01"),]
+
+Rank = aggregate(rank(Reads)~Profile, det_PSME12_P01, sum )
+names(Rank) = c("Profile","SUM")
+Rank$x = Rank$SUM
+setorder(setDT(Rank),-x)[, head(.SD, -5), by = SUM]
+
+det_PSME12_P01_rank1 = det_PSME12_P01[which(det_PSME12_P01$Profile == "60A-60"),]
+
+ T = ggplot(det_PSME12_P01_rank1, aes(det_PSME12_P01_rank1$Col, det_PSME12_P01_rank1$Row)) + geom_tile(aes(fill = det_PSME12_P01_rank1$Reads))  + theme_bw()  + theme(plot.margin= unit(c(1, 1, -1, 1), "lines")) + scale_x_discrete(expand=c(0,0))+ scale_y_discrete(expand=c(0,0))

@@ -268,7 +268,7 @@ def get_top_profiles(dat,info,di,d,wells,plate_tag,strand):
                 L += l
                 L += [len(most_confident_profiles),str(np.mean(replicates[most_confident_profiles])),str(np.std(replicates[most_confident_profiles]))]
                 L += G
-                #print most_confident_profiles,replicates[most_confident_profiles]
+                print most_confident_profiles,replicates[most_confident_profiles]
                 LL_for_csv.append(L)
 
                 out_dat[target_site].append( ["%s_______________________________________________________"%(pos), -30, "Ref",COUNTS ])

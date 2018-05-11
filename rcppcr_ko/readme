@@ -1,0 +1,4 @@
+confidence_level
+Level1 = "2 or more plate_tag replicates called exact same profiles" & "#profiles are 2 or larger" & "over three plate replicates have each have 85% of reads supporting the state"
+Level2 = "2 or more plate_tag replicates called exact same profiles" & "#profiles canbe 1" & "over three plate replicates have each have 75% of reads supporting the state"
+Level3 = Others
