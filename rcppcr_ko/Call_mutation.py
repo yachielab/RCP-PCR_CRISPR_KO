@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 """
-Python script to analyse Clonal KO RCP-PCR result.
+Python script to analyse mutation frequency on target positions from RCP-PCR samples.
 """
 import sys
 import re
@@ -20,18 +20,7 @@ def main(dat,info,di,p):
     #pprint.pprint(info_d)
     #pprint.pprint(big_d)
     mutation_profiles(big_d,info_d,di)
-    #pprint.pprint(LL_for_R)
-    """
-    for target in heatmap_d:
-        if not os.path.isdir('%s/csv/%s'%(di,target)):
-            os.makedirs('%s/csv/%s'%(di,target))
-        Fname_h = "%s/csv/%s/heatmap.csv"%(di,target)
-        Fname_b = "%s/csv/%s/barplot.csv"%(di,target)
-        LL2csv(heatmap_d[target],Fname_h)
-        LL2csv(bar_d[target],Fname_b)
-        PDF_name = ("%s/pdf/%s_plot.pdf"%(di,target))
-        os.system("Rscript %srcppcr_ko_heatmap.r %s %s %s"%(p,Fname_b,Fname_h,PDF_name))
-    """
+
 
 def mutation_profiles(dat,info,di):
     """
@@ -164,11 +153,6 @@ def mutation_profiles(dat,info,di):
 #### Small functions
 ################################
 
-def fx(x):
-    return x
-
-
-
 def csv2dict(f_name):
     d = {}
     with open(f_name,"r") as F:
@@ -192,32 +176,6 @@ def LL2csv(LL,name):
             F.write("%s\n" %  (",").join( [str(i) for i in L]))
     F.close()
 
-
-
-def ErrorProp_div(Hit,All):
-    val = 0
-    error = 0
-
-    Hit = float(Hit)
-    All = float(All)
-
-
-    val = Hit/All
-    d_All = All **(0.5)
-    #print All,d_All
-    d_Hit = Hit **(0.5)
-    #print target, d_target
-    error = ((d_All/All) ** 2) + ((d_Hit/Hit) ** 2)
-    error **= 0.5
-    error  *= val
-
-    return (val,error);
-
-def reading(name):
-    with open(name, 'r') as F:
-        ob_from_file = eval(F.read())
-    F.close()
-    return ob_from_file
 
 def btop_deconvolute(target,btop):
     btop_l = [a for a in  re.split('(\d+)',btop) if (len(a) > 0)]
@@ -246,24 +204,6 @@ def removekey(d, key):
     del r[key]
     return r
 
-def list2combinatoral(l1,l2):
-    l =[]
-    for i1 in l1:
-         for i2 in l2:
-             i = ("-").join([i1,i2])
-             l.append(i)
-    return l
-def rc_pcr_coordinate(POS):
-    if POS[2:] == "96":
-        if POS[0] == "T":
-            ROW = ["R01","R03","R05","R07","R09","R11","R13","R15"]
-        if POS[0] == "B":
-            ROW = ["R02","R04","R06","R08","R10","R12","R14","R16"]
-        if POS[1] == "L":
-            COL = ["C01","C03","C05","C07","C09","C11","C13","C15","C17","C19","C21","C23"]
-        if POS[1] == "R":
-            COL = ["C02","C04","C06","C08","C10","C12","C14","C16","C18","C20","C22","C24"]
-    return ROW, COL
 def summary2dict(summary,D):
     c=0
     with open(summary,"r") as F:
@@ -298,60 +238,6 @@ def extract_targets(f):
             c+=1
         F.close()
     return targets
-
-
-def read_viability_files(directory,corrd,D):
-
-    l = get_xlsx(directory)
-    for target in D:
-        for plate in D[target]:
-            xlsx = [ i for i in l if target in i]
-            #print xlsx,target,plate
-            if len(xlsx) ==0:
-                try:
-                    D = removekey(D,target)
-                except KeyError:
-                    pass
-            elif len(xlsx) ==1:
-                book = xlrd.open_workbook("%s/%s"%(directory,xlsx[0]))
-                sh = book.sheet_by_index(0)
-                for well in D[target][plate]:
-                    r,c,pos = xlsx_pos_TR96_convert(well)
-                    D[target][plate][well]["Cell_viability"] = sh.cell_value(rowx=r-1, colx=c-1)
-            elif len(xlsx) > 1:
-                print "Too many .xlsx files for Target: %s || %s"%(target,str(xlsx))
-    return D
-
-
-def get_xlsx(x):
-    files = []
-    lis = os.listdir("%s" %x)
-    for i in lis:
-        if i[-5:] == ".xlsx" :
-            if i[0] != "~":
-                files.append(i)
-    return files
-
-def xlsx_pos_TR96_convert(well):
-    r = well.split("-")[0]
-    c = well.split("-")[1]
-
-    R = {"R01":4,"R03":5,"R05":6,"R07":7,"R09":8,"R11":9,"R13":10,"R15":11}
-    C = {"C02":2,"C04":3,"C06":4,"C08":5,"C10":6,"C12":7,"C14":8,"C16":9,"C18":10,"C20":11,"C22":12,"C24":13}
-
-    posR = {"R01":"A","R03":"B","R05":"C","R07":"D","R09":"E","R11":"F","R13":"G","R15":"H"}
-    posC = {"C02":1,"C04":2,"C06":3,"C08":4,"C10":5,"C12":6,"C14":7,"C16":8,"C18":9,"C20":10,"C22":11,"C24":12}
-    pos  = ("").join([posR[r],str(posC[c])])
-    return R[r],C[c],pos
-def TR96_convert(PosR,PosC):
-    posR = {"R01":"A","R03":"B","R05":"C","R07":"D","R09":"E","R11":"F","R13":"G","R15":"H"}
-    posC = {"C02":1,"C04":2,"C06":3,"C08":4,"C10":5,"C12":6,"C14":7,"C16":8,"C18":9,"C20":10,"C22":11,"C24":12}
-    pos  = ("").join([posR[PosR],str(posC[PosC])])
-    return pos
-
-
-
-
 
 if __name__ == '__main__':
     dat  = sys.argv[1]
