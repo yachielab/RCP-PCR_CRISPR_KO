@@ -29,6 +29,7 @@ $seq_reads->{R1} = &get_seq($fasta_R1);
 $seq_reads->{R2} = &get_seq($fasta_R2);
 
 #print Dumper $seq_reads;
+#print Dumper $seq_DB ;
 #die
 
 my @files = ($primers_R1_blast,$primers_R2_blast);
@@ -85,7 +86,7 @@ while(my($read,$value) = each %$data){
 
     my ($category,$P1_seq,$P2_seq,$R_seq,$C_seq,$locusR1,$locusR2,$orientation) = &assign_category($value,$R1,$R2,$seq,$targets);
     #print Dumper $KO_region;
-    #print $category, $P1_seq, $P2_seq, $R_seq, $C_seq;
+    #print Dumper ($category, $P1_seq, $P2_seq, $R_seq, $C_seq);
 
     my $P1_num = ($P1_seq && length($P1_seq) < 12)? &barcode_matching($bar2num,$P1_seq):0;
     my $P2_num = ($P2_seq && length($P2_seq) < 12)? &barcode_matching($bar2num,$P2_seq):0;
@@ -345,15 +346,19 @@ sub assign_category(){
         $R_seq->{$nm} = substr $seq->{R1},$R1->{'PS1.0-primer'}->{end},$R1->{"DBU1-primer"}->{str}-$R1->{'PS1.0-primer'}->{end}+1-2;
 		    $C_seq->{$nm} = substr $seq->{R2},$R2->{'PS2.0-primer'}->{end},$R2->{"DBD2-primer"}->{str}-$R2->{'PS2.0-primer'}->{end}+1-2;
 		    if(exists($R1->{$nm."_Target"})){ #&& exists($R2->{"c".$_."_Target"})){
+			#print Dumper $R1;
+			#print Dumper $R_seq, $C_seq;
+
 			#print Dumper $R2->{"c".$_."_Target"};
-			if( $R1->{$nm."_Target"}->{Target_s} ==1 && $R1->{$nm."_Target"}->{Target_e} == $target_len ){
+			if( $R1->{$nm."_Target"}->{Target_s} ==1){
+			#if( $R1->{$nm."_Target"}->{Target_s} ==1 && $R1->{$nm."_Target"}->{Target_e} == $target_len ){
+			    #print Dumper $R1;
 			    #$R2->{"c".$_."_Target"}->{Target_s} ==1 && $R2->{"c".$_."_Target"}->{Target_e} == $target_len ){
 
 			$locusR1 = $R1->{$nm."_Target"}->{btop};
 			#$locusR2 = $R2->{"c".$_."_Target"}->{btop};
 			$orientation = 1;
       push @Target, $nm;
-
 			}}
 		    if(exists($R2->{$nm."_Target"}) ){#&& exists($R1->{"c".$_."_Target"})){
 			if( $R2->{$nm."_Target"}->{Target_s} ==1 && $R2->{$nm."_Target"}->{Target_e}==$target_len){ #&&
@@ -371,13 +376,13 @@ sub assign_category(){
 
 
     }
-    #print @Target;
+    #print Dumper @Target;
     # Specific category assignment?
     my $category = 0;
     my $R_SEQ    = 0;
     my $C_SEQ    = 0;
 
-    if( scalar @Target  == 1){
+    if( scalar @Target  == 1 ){
 	$category = $Target[0];
 	#print $category."\n";
 	$R_SEQ = $R_seq->{$category};
@@ -444,10 +449,8 @@ sub get_tag(){
 
 sub get_seq(){
     my @files = @_;
-
     my $seq;
     for my $file (@files){
-
 	my $tag = 'N_A';
 	open FILE, $file;
 	while(<FILE>){

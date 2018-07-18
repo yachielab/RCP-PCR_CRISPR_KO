@@ -188,7 +188,7 @@ def get_top_profiles(dat,info,di,abundance_threashold):
 
 
                     L += [ total_profs,Well_KO_stat,float(sum_of_hits)/tot_reads*100 ]
-                    L += profiles[:6]
+                    L += profiles[:10]
                     LL_for_csv.append(L)
     LL2csv(LL_for_csv,"%s/%s_sumary.csv"%(di,di.split("Log_")[1] ))
     return out_dat, out_bar

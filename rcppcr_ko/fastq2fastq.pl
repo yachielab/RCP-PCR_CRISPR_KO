@@ -8,7 +8,7 @@ my $seq_dir = shift;
 my @files     = @ARGV;
 
 $seq_dir =~ s/\/$//g;
-my $save_dir = "$seq_dir".'/fragmented_fasta';
+my $save_dir = "$seq_dir".'/fragmented_fastq';
 
 for my $file_1 (@files){
 
@@ -44,16 +44,16 @@ for my $file_1 (@files){
 
 	    if(!($count%100000)){
 		$split++;
-		my $path = $save_dir . '/' . $file_name . '_' . $split . '.fna';
+		my $path = $save_dir . '/' . $file_name . '_' . $split . '.fastq';
 
 		close SAVE;
 		open SAVE, ">$path";
 		print "Writing\.\. $path\n";
 	    }
 
-	    $qscore =~ s/[^\#]//g;
+	    #$qscore =~ s/[^\#]//g;
 	    #if(length($qscore)<10){  ###### Threshold for num of "#" in quality score
-	    print SAVE "\>$tag\n$seq\n";
+	    print SAVE "\>$tag\n$seq\n$qscore\n";
 	    #}
 	    $count++;
 	}

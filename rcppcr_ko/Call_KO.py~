@@ -40,7 +40,7 @@ def get_top_profiles(dat,info,di,abundance_threashold):
 
     SUM = {}
     F = {}
-    for target_site in normed_dat:
+    for target_site in dat:
         F[target_site] ={}
         #print target_site,
         out_dat[target_site] = []
@@ -53,7 +53,7 @@ def get_top_profiles(dat,info,di,abundance_threashold):
         #print tot_reads
         count = 0
         COUNTS = 0
-        gRNA_s = int(info[target_site]["gRNA_s"])
+        gRNA_s = int(info[target_site]["gRNA_s"])        
         gRNA_e = int(info[target_site]["gRNA_e"])
 
         temp_dat = []

@@ -13,6 +13,7 @@ my @files = @ARGV; ##### FULL PATH REQUIRED; identified barcode dmp files in QC_
 
 
 for my $file (@files){
+    print $file;
     if($file =~ /\/([^\/]+)\.dmp/){
 	my $save_name = $1;
 	open SAVE, '>'.$seq_dir.'/QC/sh.count/'."$save_name\.sh";
