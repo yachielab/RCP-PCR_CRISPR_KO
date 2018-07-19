@@ -14,7 +14,7 @@ import math
 import xlrd
 import pprint
 
-def main(dat,info,di,p):
+def main(dat,info,di):
     big_d = reading(dat)
     info_d= csv2dict(info)
     #pprint.pprint(info_d)
@@ -53,96 +53,96 @@ def mutation_profiles(dat,info,di):
     F = {}
     for target_site in dat:
         for plate in dat[target_site]:
-            if ((plate == "P11-P11") or  (plate == "P12-P12")):
-                for row in dat[target_site][plate]:
-                    for col in dat[target_site][plate][row]:
-                        #print target_site,plate,row,col
-                        tot = 0
-                        target_region_s = int(info[target_site]["gRNA_s"]) - 23
-                        target_region_e = int(info[target_site]["gRNA_e"]) + 18
-                        #print int(info[target_site]["gRNA_s"]),int(info[target_site]["gRNA_e"])
-                        #print target_site,target_region_s,target_region_e,len(info[target_site]["Target_seq"][target_region_s:target_region_e]),info[target_site]["Target_seq"][target_region_s:target_region_e]
+            #if ((plate == "P11-P11") or  (plate == "P12-P12")):
+            for row in dat[target_site][plate]:
+                for col in dat[target_site][plate][row]:
+                    #print target_site,plate,row,col
+                    tot = 0
+                    target_region_s = int(info[target_site]["gRNA_s"]) - 23
+                    target_region_e = int(info[target_site]["gRNA_e"]) + 18
+                    #print int(info[target_site]["gRNA_s"]),int(info[target_site]["gRNA_e"])
+                    #print target_site,target_region_s,target_region_e,len(info[target_site]["Target_seq"][target_region_s:target_region_e]),info[target_site]["Target_seq"][target_region_s:target_region_e]
 
-                        seq_array = list(info[target_site]["Target_seq"][target_region_s:target_region_e])
-                        L = [target_site,plate,row,col,"Target","Target"]
-                        L += seq_array
-                        raw_ratio.append(L)
+                    seq_array = list(info[target_site]["Target_seq"][target_region_s:target_region_e])
+                    L = [target_site,plate,row,col,"Target","Target"]
+                    L += seq_array
+                    raw_ratio.append(L)
 
-                        mut_A     = np.zeros(len(seq_array))
-                        mut_T     = np.zeros(len(seq_array))
-                        mut_G     = np.zeros(len(seq_array))
-                        mut_C     = np.zeros(len(seq_array))
-                        mut_del   = np.zeros(len(seq_array))
-                        mut_ins   = np.zeros(len(seq_array))
+                    mut_A     = np.zeros(len(seq_array))
+                    mut_T     = np.zeros(len(seq_array))
+                    mut_G     = np.zeros(len(seq_array))
+                    mut_C     = np.zeros(len(seq_array))
+                    mut_del   = np.zeros(len(seq_array))
+                    mut_ins   = np.zeros(len(seq_array))
 
-                        for profiles in dat[target_site][plate][row][col]["Plus"]:
-                            tot += dat[target_site][plate][row][col]["Plus"][profiles]
-                        for profiles in dat[target_site][plate][row][col]["Plus"]:
-                            mut_info = btop_deconvolute(info[target_site]["Target_seq"],profiles)
+                    for profiles in dat[target_site][plate][row][col]["Plus"]:
+                        tot += dat[target_site][plate][row][col]["Plus"][profiles]
+                    for profiles in dat[target_site][plate][row][col]["Plus"]:
+                        mut_info = btop_deconvolute(info[target_site]["Target_seq"],profiles)
 
-                            print mut_info
-                            A_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "A"]
-                            T_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "T"]
-                            G_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "G"]
-                            C_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "C"]
-                            del_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "Del"]
-                            ins_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "Ins"]
-
-
-
-                            for A in A_indices:
-                                mut_A[A] += float(dat[target_site][plate][row][col]["Plus"][profiles])
-                            for T in T_indices:
-                                mut_T[T] += float(dat[target_site][plate][row][col]["Plus"][profiles])
-                            for G in G_indices:
-                                mut_G[G] += float(dat[target_site][plate][row][col]["Plus"][profiles])
-                            for C in C_indices:
-                                mut_C[C] += float(dat[target_site][plate][row][col]["Plus"][profiles])
-                            for Del in del_indices:
-                                mut_del[Del] += float(dat[target_site][plate][row][col]["Plus"][profiles])
-                            for ins in ins_indices:
-                                mut_ins[ins] += float(dat[target_site][plate][row][col]["Plus"][profiles])
+                        #print mut_info
+                        A_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "A"]
+                        T_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "T"]
+                        G_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "G"]
+                        C_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "C"]
+                        del_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "Del"]
+                        ins_indices = [i for i, x in enumerate(mut_info[target_region_s:target_region_e]) if x == "Ins"]
 
 
-                        mut_A = mut_A/tot
-                        mut_T = mut_T/tot
-                        mut_G = mut_G/tot
-                        mut_C = mut_C/tot
-                        mut_del = mut_del/tot
-                        mut_ins = mut_ins/tot
-                        mut_tot = mut_A+mut_T+mut_G+mut_C+mut_del+mut_ins
 
-                        for i in range(len(seq_array)):
-                            LL_for_csv.append( [target_site,plate,row,col,"Deletion","-",i,mut_del[i]] )
-                            LL_for_csv.append( [target_site,plate,row,col,"Insertion","-",i,mut_ins[i]] )
-                            LL_for_csv.append( [target_site,plate,row,col,"Mutation","A",i,mut_A[i]] )
-                            LL_for_csv.append( [target_site,plate,row,col,"Mutation","T",i,mut_T[i]] )
-                            LL_for_csv.append( [target_site,plate,row,col,"Mutation","G",i,mut_G[i]] )
-                            LL_for_csv.append( [target_site,plate,row,col,"Mutation","C",i,mut_C[i]] )
+                        for A in A_indices:
+                            mut_A[A] += float(dat[target_site][plate][row][col]["Plus"][profiles])
+                        for T in T_indices:
+                            mut_T[T] += float(dat[target_site][plate][row][col]["Plus"][profiles])
+                        for G in G_indices:
+                            mut_G[G] += float(dat[target_site][plate][row][col]["Plus"][profiles])
+                        for C in C_indices:
+                            mut_C[C] += float(dat[target_site][plate][row][col]["Plus"][profiles])
+                        for Del in del_indices:
+                            mut_del[Del] += float(dat[target_site][plate][row][col]["Plus"][profiles])
+                        for ins in ins_indices:
+                            mut_ins[ins] += float(dat[target_site][plate][row][col]["Plus"][profiles])
 
 
-                        L = [target_site,plate,row,col,"Deletion","-"]
-                        #print mut_del
-                        L += [str(i) for i in  mut_del]
-                        raw_ratio.append(L)
-                        L = [target_site,plate,row,col,"Insertion","-"]
-                        L += [str(i) for i in mut_ins]
-                        raw_ratio.append(L)
-                        L = [target_site,plate,row,col,"Mutation","A"]
-                        L +=[str(i) for i in  mut_A]
-                        raw_ratio.append(L)
-                        L = [target_site,plate,row,col,"Mutation","T"]
-                        L += [str(i) for i in mut_T]
-                        raw_ratio.append(L)
-                        L = [target_site,plate,row,col,"Mutation","G"]
-                        L += [str(i) for i in mut_G]
-                        raw_ratio.append(L)
-                        L = [target_site,plate,row,col,"Mutation","C"]
-                        L += [str(i) for i in mut_C]
-                        raw_ratio.append(L)
-                        L = [target_site,plate,row,col,"Mutation","Total"]
-                        L += [str(i) for i in mut_tot]
-                        raw_ratio.append(L)
+                    mut_A = mut_A/tot
+                    mut_T = mut_T/tot
+                    mut_G = mut_G/tot
+                    mut_C = mut_C/tot
+                    mut_del = mut_del/tot
+                    mut_ins = mut_ins/tot
+                    mut_tot = mut_A+mut_T+mut_G+mut_C+mut_del+mut_ins
+
+                    for i in range(len(seq_array)):
+                        LL_for_csv.append( [target_site,plate,row,col,"Deletion","-",i,mut_del[i]] )
+                        LL_for_csv.append( [target_site,plate,row,col,"Insertion","-",i,mut_ins[i]] )
+                        LL_for_csv.append( [target_site,plate,row,col,"Mutation","A",i,mut_A[i]] )
+                        LL_for_csv.append( [target_site,plate,row,col,"Mutation","T",i,mut_T[i]] )
+                        LL_for_csv.append( [target_site,plate,row,col,"Mutation","G",i,mut_G[i]] )
+                        LL_for_csv.append( [target_site,plate,row,col,"Mutation","C",i,mut_C[i]] )
+
+
+                    L = [target_site,plate,row,col,"Deletion","-"]
+                    #print mut_del
+                    L += [str(i) for i in  mut_del]
+                    raw_ratio.append(L)
+                    L = [target_site,plate,row,col,"Insertion","-"]
+                    L += [str(i) for i in mut_ins]
+                    raw_ratio.append(L)
+                    L = [target_site,plate,row,col,"Mutation","A"]
+                    L +=[str(i) for i in  mut_A]
+                    raw_ratio.append(L)
+                    L = [target_site,plate,row,col,"Mutation","T"]
+                    L += [str(i) for i in mut_T]
+                    raw_ratio.append(L)
+                    L = [target_site,plate,row,col,"Mutation","G"]
+                    L += [str(i) for i in mut_G]
+                    raw_ratio.append(L)
+                    L = [target_site,plate,row,col,"Mutation","C"]
+                    L += [str(i) for i in mut_C]
+                    raw_ratio.append(L)
+                    L = [target_site,plate,row,col,"Mutation","Total: %d"%(tot)]
+                    L += [str(i) for i in mut_tot]
+                    raw_ratio.append(L)
 
 
     LL2csv(LL_for_csv,"mutation_sumary_for_plot.csv" )
@@ -152,6 +152,13 @@ def mutation_profiles(dat,info,di):
 ################################
 #### Small functions
 ################################
+def reading(name):
+    with open(name, 'r') as F:
+        ob_from_file = eval(F.read())
+    F.close()
+    return ob_from_file
+
+
 
 def csv2dict(f_name):
     d = {}
@@ -243,6 +250,5 @@ if __name__ == '__main__':
     dat  = sys.argv[1]
     info = sys.argv[2]
     di = sys.argv[3]#Directory name. Defalt "."
-    p = sys.argv[4]
 
-    main(dat,info,di,p)
+    main(dat,info,di)
