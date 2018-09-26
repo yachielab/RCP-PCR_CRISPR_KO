@@ -14,7 +14,7 @@ import math
 import xlrd
 import pprint
 
-def main(dat,info,strand,abundance_threashold,di,p,cellv,coord):
+def main(dat,info,strand,abundance_threashold,di,p):
     big_d = reading(dat)
     info_d= csv2dict(info)
     #pprint.pprint(info_d)
@@ -35,7 +35,7 @@ def main(dat,info,strand,abundance_threashold,di,p,cellv,coord):
 def get_top_profiles(dat,info,di,abundance_threashold):
     out_dat = {}
     out_bar = {}
-    LL_for_csv = [["Target","Plate","Row","Col","Total_reads","#Mutation_profiles_above_threashold","Well_KO_stat","Reads_support_stat(%)", "Profile#1","#Reads#1_rate","Standard_Error#1", "Profile#2","#Reads#2_rate","Standard_Error#2"  ]  ]
+    LL_for_csv = [["Target","Plate","Row","Col","Total_reads","#Mutation_profiles_above_threashold","Well_KO_stat","Reads_support_stat(%)", "Profile#1","#Reads#1_rate","Standard_Error#1","Profile#1_deatl", "Profile#2","#Reads#2_rate","Standard_Error#2","Profile#2_detail"  ]  ]
 
 
     SUM = {}
@@ -155,7 +155,7 @@ def get_top_profiles(dat,info,di,abundance_threashold):
                                         Frameshift = "Indel(frameshift)"
                                     else:
                                         Frameshift = "Indel(non-frameshift)"
-                                profiles += [Frameshift, round(hit_rat,2)*100,round(error,2)*100 ]
+                                profiles += [Frameshift, round(hit_rat,2)*100,round(error,2)*100,mutation_profile ]
                                 
 
                                 out_dat[target_site].append( ["%s_%s_%s_Profile#%d"%(plate,row,col,prof), 0,  Frameshift,COUNTS ])
@@ -188,7 +188,7 @@ def get_top_profiles(dat,info,di,abundance_threashold):
 
 
                     L += [ total_profs,Well_KO_stat,float(sum_of_hits)/tot_reads*100 ]
-                    L += profiles[:10]
+                    L += profiles
                     LL_for_csv.append(L)
     LL2csv(LL_for_csv,"%s/%s_sumary.csv"%(di,di.split("Log_")[1] ))
     return out_dat, out_bar
@@ -393,7 +393,7 @@ if __name__ == '__main__':
     abundance_threashold = float(sys.argv[4])#Default = 0.1
     di = sys.argv[5]#Directory name. Defalt "."
     p = sys.argv[6]
-    cellv = sys.argv[7]
-    coord = sys.argv[8]
+    #cellv = sys.argv[7]
+    #coord = sys.argv[7]
 
-    main(dat,info,strand,abundance_threashold,di,p,cellv,coord)
+    main(dat,info,strand,abundance_threashold,di,p)

@@ -200,7 +200,7 @@ def btop_deconvolute(target,btop):
                 if m[0] == "-":
                     mut_mem.append("Del")
                 elif m[1] == "-":
-                    mut_mem.append("Ins")
+                    mut_mem.append("Ins_%s"%(m[0]))
                 else:
                     mut_mem.append(m[0])
     #print len(target),len(mut_mem)

@@ -34,7 +34,7 @@ def main(args,script_path):
             os.makedirs('%s/workdir_%s/db'%(out_dir,out_dir))
             os.makedirs('%s/workdir_%s/db/fasta'%(out_dir,out_dir))
     
-    
+    """
     
     target_regions = args.targets
     common = [["DBU1-primer","CCATACGAGCACATTACGGG"],["DBD2-primer","CTTGACTGAGCGACTGAGG"],["PS1.0-primer","TAACTTACGGAGTCGCTCTACG"],["PS2.0-primer","GGATGGGATTCTTTAGGTCCTG"]]
@@ -63,12 +63,12 @@ def main(args,script_path):
     os.system("makeblastdb -in %s/workdir_%s/db/fasta/const-seq.fna -dbtype nucl"%(out_dir,out_dir))
     db = '%s/workdir_%s/db/fasta/const-seq.fna'%(out_dir,out_dir)
     
-    """
+    
     print "\n\n\n\nSplit and generating fasta files...."
     print "perl %sfastq2fasta.pl %s/workdir_%s %s \n"% (script_paths,out_dir,out_dir,args.input_file)
     os.system("perl %sfastq2fasta.pl %s/workdir_%s %s \n"% (script_paths,out_dir,out_dir,args.input_file))
     print '....... Finished\n\n'
-    """
+    
     print "Making backup for fasta files..."
     os.system("cp  %s/%s/workdir_%s/fragmented_fasta/*  %s/%s/workdir_%s/fragmented_fasta_backup/\n"% (PATH,out_dir,out_dir,PATH,out_dir,out_dir))
     
@@ -82,7 +82,6 @@ def main(args,script_path):
     print "Generate concensus sequence...."
     print "perl %sread_concensus_wraper07122018DY.pl %s  %s/%s/workdir_%s %s/%s/workdir_%s/fragmented_fasta/*.fna\n"%(script_paths,script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir)
     os.system("perl %sread_concensus_wraper07122018DY.pl %s  %s/%s/workdir_%s %s/%s/workdir_%s/fragmented_fasta/*.fna"%(script_paths,script_paths,PATH,out_dir,out_dir,PATH,out_dir,out_dir))
-    """
     print '....... Finished\n'
     if args.sge_computing < 1:
         #print "%s/%s/workdir_%s/blast/sh.blast/"%(PATH,out_dir,out_dir)
@@ -194,14 +193,16 @@ def main(args,script_path):
     fin.close()
     fout.close()
     os.system("rm %s/%s/Log_%s/merged_count_forPy_temp.txt"%(PATH,out_dir,out_dir))
-    """
+    
 
-    #print "Calling KO ......"
-    #print "python %sCall_KO.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths)
+    print "Calling KO ......"
+    print "python %sCall_KO.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths)
     #os.system("python %sCall_KO.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths))
-    
-    
-    
+    """
+    print "Generating plot ......"
+    print "python %sarrange_data_for_plot.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths)
+    os.system("python %sarrange_data_for_plot_08152018.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths))
+
     print 'Finished running RCP-PCR program suite.'
     
     
