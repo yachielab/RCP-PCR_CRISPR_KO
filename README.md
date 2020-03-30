@@ -9,16 +9,17 @@ Especially, RCP-PCR_CRISPR_KO is designed for RCP-PCR experiments that involve q
 
 
 ![RCP-PCR](https://www.embopress.org/cms/asset/fd513902-3d16-43ea-b723-fd3e602b8f59/msb156660-fig-0003ev-m.jpg)
-Figure EV3 in ([Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)).
+Figure EV3 in [Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863).
 
 
 
-\\
-\\
-
-
-
-
+ 
+  
+   
+  
+  
+    
+   
 
 ## Version
 
