@@ -4,7 +4,7 @@ This tool is for analyzing on local/cluster computers.
 
 RCP-PCR program suit is built for analyzing high throughput short read sequencing read outs from RCP-PCR experiments. RCP-PCR is a nested PCR reaction which indexes the PCR product so that we can multiplex up to 16 (Rows) x 24 (Columns) x 35 (Plates) = ~13,000 samples per high throughput short read sequencing run ([Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)). 
 
-![RCP-PCR](http://msb.embopress.org/content/msb/12/4/863/F6.large.jpg)
+![RCP-PCR](https://www.embopress.org/cms/asset/fd513902-3d16-43ea-b723-fd3e602b8f59/msb156660-fig-0003ev-m.jpg)
 
 This program suit de-multiplexes the reads and analyzes the status of read according to the experiment which RCP-PCR Is used in. It has first been developed by Dr. Nozomu  Yachie, and have been implemented to Python /command line tools for further applications. 
 
