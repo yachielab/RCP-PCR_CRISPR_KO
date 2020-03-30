@@ -201,7 +201,7 @@ def main(args,script_path):
     """
     print "Generating plot ......"
     print "python %sarrange_data_for_plot.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths)
-    os.system("python %sarrange_data_for_plot.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths))
+    os.system("python %sarrange_data_for_plot_08152018.py  %s/%s/Log_%s/merged_count_forPy.txt %s Plus %f %s/%s/Log_%s %s"%(script_paths,PATH,out_dir,out_dir,args.targets,args.ratio,PATH,out_dir,out_dir,script_paths))
 
     print 'Finished running RCP-PCR program suite.'
     

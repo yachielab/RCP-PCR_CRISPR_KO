@@ -14,14 +14,14 @@ import math
 import xlrd
 import pprint
 
-def main(dat,info,strand,abundance_threashold,di,p,cellv,coord):
+def main(dat,info,strand,abundance_threashold,di,cellv,coord):
     big_d = reading(dat)
     info_d= csv2dict(info)
     target_list = extract_targets(info)
     rows,cols = rc_pcr_coordinate(coord)
     wells     = list2combinatoral(rows,cols)
     D         = {}
-    plate_tag = ["P01-P01","P02-P02","P03-P03","P04-P04"]
+    plate_tag = ["P01-P01","P04-P04","P05-P05","P06-P06","P07-P07"]
 
     for target in target_list:
         D[target] = {}
@@ -36,14 +36,15 @@ def main(dat,info,strand,abundance_threashold,di,p,cellv,coord):
 
 
 
-    LL2csv(LL_for_csv,"%s/%s_sumary_02082018.csv"%(di,di.split("Log_")[1]))
+    #LL2csv(LL_for_csv,"%s/%s_sumary_10022018DEY.csv"%(di,di.split("Log_")[1]))
+    LL2csv(LL_for_csv,"sumary_10022018DEY.csv")
     #LL2csv(LL_profile,"%s/%s_prenormed.csv"%(di,di.split("Log_")[1]))
     #LL2csv(LL_normed,"%s/%s_normed.csv"%(di,di.split("Log_")[1]))
     #LL2csv(LL_profile,"%s/%s_profile.csv"%(di,di.split("Log_")[1]))
 
     #pprint.pprint(LL_for_R)
 
-    for target in heatmap_d:
+    """for target in heatmap_d:
         if not os.path.isdir('%s/csv/%s'%(di,target)):
             os.makedirs('%s/csv/%s'%(di,target))
         Fname_h = "%s/csv/%s/heatmap.csv"%(di,target)
@@ -51,15 +52,16 @@ def main(dat,info,strand,abundance_threashold,di,p,cellv,coord):
         LL2csv(heatmap_d[target],Fname_h)
         LL2csv(bar_d[target],Fname_b)
         PDF_name = ("%s/pdf/%s_plot.pdf"%(di,target))
-        os.system("Rscript %srcppcr_ko_heatmap.r %s %s %s"%(p,Fname_b,Fname_h,PDF_name))
+        os.system("Rscript %srcppcr_ko_heatmap.r %s %s %s"%(p,Fname_b,Fname_h,PDF_name))"""
 
 def get_top_profiles(dat,info,di,d,wells,plate_tag,strand):
     A_RECORD = []
     out_dat = {}
     out_bar = {}
-    LL_for_csv   = [["Target","Well","Cell_viability","Well_stat","#Mutation_profiles_above_threashold","KO_profile","Confidence_level"]]
+    LL_for_csv   = [["Target","Well","Cell_viability","Well_stat","#Mutation_profiles_above_threashold","KO_profile","Confidence_level","Frameshift_allels"]]
     LL_for_csv[0] += [ "#Total_reads_%s"%(i) for i in plate_tag]
-    LL_for_csv[0]  +=["#Plate_replicates_support_stat","Mean_Reads_support_stat(%)","Std_Reads_support_stat(%)", "Profile#1","Profile#2","Profile#3","Profile#4"  ]
+    LL_for_csv[0] += [ "#Total_ratio_%s"%(i) for i in plate_tag]
+    LL_for_csv[0]  +=["Plate_replicates_support_stat","#Plate_replicates_support_stat","Mean_Reads_support_stat(%)","Std_Reads_support_stat(%)", "Profile#1","Profile#2","Profile#3","Profile#4"  ]
 
 
 
@@ -175,21 +177,27 @@ def get_top_profiles(dat,info,di,d,wells,plate_tag,strand):
                                 #print target_site,plate,row,col,tot_reads,hits,imputed_hitrate, mutation_profile
                                 sum_of_hits += hits
                     for i in HIT_MEM[pos][plate]:
-                        HIT_RATE_MEM[pos][plate][i] = round(float(HIT_MEM[pos][plate][i])/float(tot_reads),2)
-                    Well_KO_stat.append([round(float(sum_of_hits)/float(tot_reads),2),set(profiles),plate])
+                        HIT_RATE_MEM[pos][plate][i] = round(float(HIT_MEM[pos][plate][i])/float(tot_reads),3)*100
+                    Well_KO_stat.append([round(float(sum_of_hits)/float(tot_reads),4)*100,set(profiles),plate])
+
                     PS[plate] = set(profiles)
                 except KeyError:
                     pass
 
-            #pprint.pprint(Well_KO_stat)
+
 
             replicates = {}
+            plates_used = {}
             for replicate in Well_KO_stat:
                 try:
                     replicates[frozenset(replicate[1])].append(replicate[0])
+                    plates_used[frozenset(replicate[1])].append(replicate[2])
                 except KeyError:
                     replicates[frozenset(replicate[1])] = [replicate[0]]
+                    plates_used[frozenset(replicate[1])] = [replicate[2]]
             #print target_site,pos,replicates
+            #print plates_used
+            #print replicates
             if len([ i for i in sorted(replicates.iteritems(), key=lambda kv: (len(kv[1]), kv[0]),reverse=True)]) > 0:
                 most_confident_profiles = [ i for i in sorted(replicates.iteritems(), key=lambda kv: (len(kv[1]), kv[0]),reverse=True)][0][0]
 
@@ -208,6 +216,7 @@ def get_top_profiles(dat,info,di,d,wells,plate_tag,strand):
                             level = "Level1"
                     elif c75 >= 2:
                         level = "Level2"
+                NUM_frame = 0
                 genotype = []
                 G = []
                 for i in most_confident_profiles:
@@ -218,11 +227,13 @@ def get_top_profiles(dat,info,di,d,wells,plate_tag,strand):
                     if mut_l.count("Del") > 0:
                         if (mut_l.count("Del")%3 != 0):
                             Frameshift = "Frameshift"
+                            NUM_frame +=1
                         else:
                             Frameshift = "Indel"
                     elif mut_l.count("Ins") >0:
                         if (mut_l.count("Ins")%3 != 0):
                             Frameshift = "Frameshift"
+                            NUM_frame +=1
                         else:
                             Frameshift = "Indel"
                     genotype.append(Frameshift)
@@ -258,16 +269,21 @@ def get_top_profiles(dat,info,di,d,wells,plate_tag,strand):
 
                 final_stat = ("_").join([level,KO_stat])
 
-                L += [d[target_site][plate][pos]["Cell_viability"],final_stat,str(total_profs),KO_stat,level]
-                l = []
-                for plate in plate_tag:
-                    try:
-                        l += [sum(normed_dat[target_site][plate][well][strand].values())]
-                    except KeyError:
-                        l += ["N.A."]
-                L += l
-                L += [len(most_confident_profiles),str(np.mean(replicates[most_confident_profiles])),str(np.std(replicates[most_confident_profiles]))]
-                L += G
+                L += [NUM_frame,d[target_site][plate][pos]["Cell_viability"],final_stat,str(total_profs),KO_stat,level]
+                val = 0
+                plttg = ["P01-P01","P04-P04","P05-P05","P06-P06","P07-P07"]
+                for plateee in plttg:
+                    for STAAAT in Well_KO_stat:
+                        if (plateee == STAAAT[2]):
+                            val = STAAAT[0]
+                    if val==0:
+                        L += [ 0 ]
+                    else:
+                        L += [val]
+
+                #L += [frameshift,len() (";").join(sorted(plates_used[most_confident_profiles])),len(plates_used[most_confident_profiles]),str(np.mean(replicates[most_confident_profiles])),str(np.std(replicates[most_confident_profiles]))]
+                #L += G
+
                 #print most_confident_profiles,replicates[most_confident_profiles]
                 LL_for_csv.append(L)
 
@@ -316,7 +332,7 @@ def normalize_reads(D,d,wells):
     Detail_LL_error  =  [["Target","Plate","Well","Row","Col","Cellv","Profile","#Reads"]]
     Detail_LL_normed =  [["Target","Plate","Well","Row","Col","Cellv","Profile","#Reads"]]
     TOT_reads_per_well = [["Target","Plate","Well","Cellv","Reads"]]
-    plate_tag       =  ["P01-P01","P02-P02","P03-P03","P04-P04"]
+    plate_tag       =  ["P01-P01","P04-P04","P05-P05","P06-P06","P07-P07"]
     #normed[target_site][plate][row][col]["Plus"][profile]= normedcount
     normed = {}
     D_for_Error = {}
@@ -595,8 +611,9 @@ if __name__ == '__main__':
     strand = sys.argv[3] #"Plus" or "Minus"
     abundance_threashold = float(sys.argv[4])#Default = 0.1
     di = sys.argv[5]#Directory name. Defalt "."
-    p = sys.argv[6]
-    cellv = sys.argv[7]
-    coord = sys.argv[8]
+    #p = sys.argv[6]
+    cellv = sys.argv[6]
+    coord = sys.argv[7]
 
-    main(dat,info,strand,abundance_threashold,di,p,cellv,coord)
+    main(dat,info,strand,abundance_threashold,di,cellv,coord)
+    # python Call_KO_merge_replicates.py
