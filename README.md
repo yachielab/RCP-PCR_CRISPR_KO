@@ -88,9 +88,23 @@ optional arguments:
 >Change 'FULLPATH' accordingly to your path to the directory.
 
 
-## Usage examples
-    python FULLPATH/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -R1 FULLPATH/test/test_R1.fastq -R2 FULLPATH/test/test_R2.fastq  -t PULLPATH/test/test_target.csv -c 2    
->Change 'FULLPATH' accordingly to your path to the directory.
+## Example of reference file
+Target reference file: Available in test/test_target.csv
+    Target,Target_seq,gRNA_s,gRNA_e
+    MED4_sg2,ATTAAGTGCCAATTTCATTAGTTCTTGAAATTCCCCATCTCGGTGAATTAACAACTCCAGGACCTGTCAGATAACAGTCAATTAAATCAGACAATAGACT,38,57
+    MED4_sg3,GGCTAAAGGATCTTGTGAATTAAGCCAAAAACTAAGTTTGATATAGTTGAAGAATAAACCACGTTTTTTAAATGTTGTTTAAATTAGGCAACAGCTGTTTACCAAGCGAAGGAGAAACTCAAGTCAATAGAAAAAGCAAGAAAAGGTTAGTAT,90,109
+
+Target referece: ID of the target. Please put a unique name.
+Target seq     : Target (amplified) sequence. 
+gRNA_s         : Position where gRNA starts.
+gRNA_e         : Position where gRNA ends.
+
+
+## Example of output files
+
+
+
+
 
 
 
