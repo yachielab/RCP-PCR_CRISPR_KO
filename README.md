@@ -90,6 +90,7 @@ optional arguments:
 
 ## Example of reference file
 Target reference file: Available in test/test_target.csv
+
     Target,Target_seq,gRNA_s,gRNA_e
     MED4_sg2,ATTAAGTGCCAATTTCACAGTC..AATAAATCAGACAATAGACT,38,57
     MED4_sg3,GGCTAAAGGATCTTGTGAATAG..NNAAGGAGAAAGGTTAGTAT,90,109
