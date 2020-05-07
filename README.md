@@ -1,12 +1,14 @@
 ## RCP-PCR_CRISPR_KO
-This program suit is implemented for genotyping isolated single clones from a CRISPR-treated population using RCP-PCR.RCP-PCR is a nested PCR reaction which indexes the PCR product so that we can multiplex up to 16 (Rows) x 24 (Columns) x 35 (Plates) = ~13,000 samples per high throughput short read sequencing run ([Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)). 
+This program suit is implemented for genotyping isolated single clones from a CRISPR-treated population using RCP-PCR. 
+You may find detials designs of the experiments and analysis scripts below.
 
 ### How the CRISPR-treatment and single clone isolation was performed
 We have performed RCP-PCR on clonal isolates after targetted CRISPR/Cas9 editting. 
 
 
 ### How the RCP-PCR experiment was designed
-We have performed RCP-PCR on
+RCP-PCR is a nested PCR reaction which indexes the PCR product so that we can multiplex up to 16 (Rows) x 24 (Columns) x 35 (Plates) = ~13,000 samples per high throughput short read sequencing run ([Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)). 
+
 
 ### How this analysis script works
 We have performed RCP-PCR on clonal isolates after targetted CRISPR/Cas9 editting.This program suit is designed to analyze 
@@ -36,9 +38,9 @@ Please contact dan.yamamoto.evans [at] gmail.com for quick response to resolve a
 
 ## Installation
 
-Please follow the following steps to install RCP-PCR_KO from source:
+Clone RCP-PCR_CRISPR_KO source code: 
 
-    Clone RCP-PCR_CRISPR_KO source code: git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
+    git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
 
 
 ### Requirements
