@@ -19,7 +19,7 @@ Figure EV3 in [Yachie et al (2016) Molecular Systems Biology](http://msb.embopre
 
 ### Reference
 - Yachie et al
-- Suzuki et al
+- Suzuki et al (In preparation)
     
    
 
