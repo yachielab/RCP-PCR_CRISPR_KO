@@ -2,15 +2,11 @@
 This program suit is implemented for genotyping isolated single clones from a CRISPR-treated population using RCP-PCR. 
 You may find detials designs of the experiments and analysis scripts below.
 
-### How the CRISPR-treatment and single clone isolation was performed
-We have performed RCP-PCR on clonal isolates after targetted CRISPR/Cas9 editting. 
+### Experiment design
+We have performed RCP-PCR on clonal isolates after targetted CRISPR/Cas9 editting. RCP-PCR is a nested PCR reaction which indexes the PCR product so that we can multiplex up to 16 (Rows) x 24 (Columns) x 35 (Plates) = ~13,000 samples per high throughput short read sequencing run ([Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)). 
 
 
-### How the RCP-PCR experiment was designed
-RCP-PCR is a nested PCR reaction which indexes the PCR product so that we can multiplex up to 16 (Rows) x 24 (Columns) x 35 (Plates) = ~13,000 samples per high throughput short read sequencing run ([Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)). 
-
-
-### How this analysis script works
+### Analysis script design
 We have performed RCP-PCR on clonal isolates after targetted CRISPR/Cas9 editting.This program suit is designed to analyze 
 
 
