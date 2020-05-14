@@ -117,11 +117,12 @@ gRNA_e         : Position where gRNA ends.
 
 ## Example of output files
 
-　　　　1	Target	Target name 
-　　　　2	Plate	Plate index
-　　　　3	Row	Row index
-　　　　4	Col	Column index
-　　　　5	Total_reads	Total reads after de-multiplexing
+
+    1	Target	Target name 
+    2	Plate	Plate index
+    3	Row	Row index
+    4	Col	Column index
+    5	Total_reads	Total reads after de-multiplexing
 　　　　6	#Mutation_profiles_above_threashold	Number of mutation profiles (allells) observed above thrshold after demultiplexing
 　　　　7	Well_KO_stat	Genotype summary of clonal sample. This is based on each of the profiles (columns 9-16). Criteria for specific statement is shown below.
 　　　　8	Reads_support_stat(%)	Percentage of demultipkexed reads asigned to allells above threshold. 
