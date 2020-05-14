@@ -140,15 +140,15 @@ gRNA_e         : Position where gRNA ends.
 
 #### Well KO stat detail
 
-    Well_KO_stat		Detail
+    Well_KO_stat			Detail
     -				No allells were above threshold.
     WT				All allels were same as wild type.
     Indel(1profile)			One allels was above threshold, and it was a in-frame indel.
     Frameshift(1profile)		One allels was above threshold, and it was a frameshift mutation.
     Hetero				Two allels was above threshold, and one was wildtype, another was a frameshift mutation.
-    Homo-indel(non-frameshift)		Two allels was above threshold, and both allels were in-frame indels
+    Homo-indel(non-frameshift)	Two allels was above threshold, and both allels were in-frame indels
     Homo-frameshift			Two allels was above threshold, and both allels were frameshift mutations.
-    Too many profiles			More than two allels was above threshold.
+    Too many profiles		More than two allels was above threshold.
 
 
 
