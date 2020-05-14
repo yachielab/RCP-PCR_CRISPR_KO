@@ -21,6 +21,7 @@ def main(dat,info,strand,abundance_threashold,di,p):
     #pprint.pprint(big_d)
     heatmap_d, bar_d= get_top_profiles(big_d,info_d,di,abundance_threashold)
     #pprint.pprint(LL_for_R)
+    
     for target in heatmap_d:
         if not os.path.isdir('%s/csv/%s'%(di,target)):
             os.makedirs('%s/csv/%s'%(di,target))
@@ -29,7 +30,7 @@ def main(dat,info,strand,abundance_threashold,di,p):
         LL2csv(heatmap_d[target],Fname_h)
         LL2csv(bar_d[target],Fname_b)
         PDF_name = ("%s/pdf/%s_plot.pdf"%(di,target))
-        os.system("Rscript %srcppcr_ko_heatmap.r %s %s %s"%(p,Fname_b,Fname_h,PDF_name))
+        #os.system("Rscript %srcppcr_ko_heatmap.r %s %s %s"%(p,Fname_b,Fname_h,PDF_name))
 
 
 def get_top_profiles(dat,info,di,abundance_threashold):
