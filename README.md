@@ -119,7 +119,7 @@ gRNA_e         : Position where gRNA ends.
 
 #### Output file (.csv)
 
-    Column	Name				Description
+    Column	Name					Description
     1	Target					Target 	name 
     2	Plate					Plate 	index
     3	Row					Row 	index
