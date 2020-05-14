@@ -119,23 +119,23 @@ gRNA_e         : Position where gRNA ends.
 
 #### Output file (.csv)
 
-    Column Name Description
-    1	Target	Target name 
-    2	Plate	Plate index
-    3	Row	Row index
-    4	Col	Column index
-    5	Total_reads	Total reads after de-multiplexing
-    6	#Mutation_profiles_above_threashold	Number of mutation profiles (allells) observed above thrshold after demultiplexing
-    7	Well_KO_stat	Genotype summary of clonal sample. This is based on each of the profiles (columns 9-16). Criteria for specific statement is shown below.
-    8	Reads_support_stat(%)	Percentage of demultipkexed reads asigned to allells above threshold. 
-    9	Profile#1	Indel summary of the most dominat allelle.
-    10	#Reads#1_rate	Ratio of Profile#1 reads within total reads in demultiplexed sample.
-    11	Standard_Error#1	Standard error of Profile#1 reads based on read number.
-    12	Profile#1_deatl	BLASTn btop string of the most dominant allele.
-    13	Profile#2	Indel summary of the second most dominat allelle.
-    14	#Reads#2_rate	Ratio of Profile#2 reads within total reads in demultiplexed sample.
-    15	Standard_Error#2	Standard error of Profile#2 reads based on read number.
-    16	Profile#2_detail	BLASTn btop string of the second most dominant allele.
+    Column	Name			Description
+    1	Target				Target 	name 
+    2	Plate				Plate 	index
+    3	Row				Row 	index
+    4	Col				Column 	index
+    5	Total_reads			Total reads after de-multiplexing
+    6	#Mutation_profiles_above_threashold		Number of mutation profiles (allells) observed above thrshold after demultiplexing
+    7	Well_KO_stat			Genotype summary of clonal sample. This is based on each of the profiles (columns 9-16). Criteria for specific statement is shown below.
+    8	Reads_support_stat(%)			Percentage of demultipkexed reads asigned to allells above threshold. 
+    9	Profile#1			Indel summary of the most dominat allelle.
+    10	#Reads#1_rate			Ratio of Profile#1 reads within total reads in demultiplexed sample.
+    11	Standard_Error#1			Standard error of Profile#1 reads based on read number.
+    12	Profile#1_deatl			BLASTn btop string of the most dominant allele.
+    13	Profile#2			Indel summary of the second most dominat allelle.
+    14	#Reads#2_rate			Ratio of Profile#2 reads within total reads in demultiplexed sample.
+    15	Standard_Error#2			Standard error of Profile#2 reads based on read number.
+    16	Profile#2_detail			BLASTn btop string of the second most dominant allele.
 
 
 #### Well KO stat detail
