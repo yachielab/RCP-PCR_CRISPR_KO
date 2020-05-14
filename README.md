@@ -17,16 +17,12 @@ Figure EV3 in [Yachie et al (2016) Molecular Systems Biology](http://msb.embopre
 
 
 ### Analysis script design
-We 
-
+We first identified the RCP-PCR indices and target region from each sequencing read. Simultaneously, the target region of the read is aligned to the wild-type sequence using BLASTn software. The alignment result for de-multiplexed reads were aggregated to compute the allele frequency within each of the clone-derived sample. Any allele appearing less than 10% within each de-multiplexed sample was eliminated for further analysis to cancel out sequencing error. Finally, the remaining count data of each allele were used to identify the genotype of the isolated clones. Clones having frame-shift mustation on both alleles were used for further analysis. 
 
 ### Reference
 - Yachie et al
 - Suzuki et al (In preparation)
     
-   
-
-
 
 
 ## Version
@@ -43,7 +39,7 @@ Please contact dan.yamamoto.evans [at] gmail.com for quick response to resolve a
 
 Clone RCP-PCR_CRISPR_KO source code: 
 
-    git clone https://github.com/DanYamamotoEvans/RCP-PCR_CRISPR_KO.git
+    git clone https://github.com/yachielab/RCP-PCR_CRISPR_KO.git
 
 
 ### Requirements
