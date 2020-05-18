@@ -66,8 +66,8 @@ usage:
 
 Required arguments:  
 
-	-in INPUT_FILE_R1, --input_file_R1 INPUT_FILE_R1    
-			Input fastq files  (eg. test_R1.fastq,test_R2.fastq )  
+	-in INPUT_FILE_R1, --input
+			Input fastq files  (eg. test_R*.fastq)  
         
 	-t TARGETS, --targets TARGETS   
 		Input target informtion in csv format. (see wiki for detail)  
