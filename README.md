@@ -10,10 +10,6 @@ RCP(Row Column Plate)-PCR is capable of multiplexing up to 16 (Rows) x 24 (Colum
 For each of the targets, we designed primers which would amplify the region with length less than 150 bp. We performed the first PCR with those primers which flanks a common RC-PCR primer landing site. The samples were purified in a 96-well format, and products were used as template for subsequent RCP-PCR procedures. 
 The second PCR (Row Column-PCR) was performed with Frd primers having Row index, and Rvs primer having Column index, respectively. These RC-PCR primers were flanked with binding sites for the third PCR (Plate-PCR). Products from the second (Row Column-PCR) PCR were grouped together and purified to use for the third PCR (Plate-PCR), and sequenced in a high-throughput sequencing run. 
    
-![RCP-PCR](https://www.embopress.org/cms/asset/fd513902-3d16-43ea-b723-fd3e602b8f59/msb156660-fig-0003ev-m.jpg)
-Figure EV3 in [Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863).
-
-
 
 
 ### Analysis script design
