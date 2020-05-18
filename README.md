@@ -1,4 +1,4 @@
-## RCP-PCR_CRISPR_KO
+## RCP-PCR CRISPR KO 
 This program suit is implemented for genotyping isolated single clones from a CRISPR-treated population using RCP-PCR. 
 You may find detials designs of the experiments and analysis scripts below.
 
@@ -51,7 +51,7 @@ BLAST+ (blastn version 2.6.0+)
 Before you use;  
 Check that your BLAST+ program path is through. Go to NCBI website and download BLAST+ locally if not present. Reffer the BLAST® Command Line Applications User Manul published by NCBI (https://www.ncbi.nlm.nih.gov/books/NBK279690/).  
 
-## Input specifications
+## Software usage
 
 Use the following options to run rcppcr_ko:
 
@@ -89,7 +89,7 @@ optional arguments:
 		Show this help message.  
 
 
-## Usage examples
+## Command example for test data
     python FULLPATH/RCP-PCR_CRISPR_KO/rcppcr_ko/rcppcr_ko.py -in FULLPATH/test/"*.fastq"  -t PULLPATH/test/test_target.csv -c 2    
 >Change 'FULLPATH' accordingly to your path to the directory.
 
@@ -112,7 +112,7 @@ gRNA_e         : Position where gRNA ends.
 
 
 
-## Example of output files
+## Example output summary file
 
 #### Output file (.csv)
 
