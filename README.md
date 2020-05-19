@@ -5,7 +5,7 @@ Information regarding detailed experimental design and analysis scripts are avai
 ### Experiment design
 We treated human cell culture samples with CRISPR/Cas9, targeting specific genes of interest. The cells were isolated in 96-well culture plates to obtain clonal isolates. After growth of the cells, we performed serial PCRs to identify the genotype.
 
-RCP(Row Column Plate)-PCR is capable of multiplexing up to 16 (Rows) x 24 (Columns) x 35 (Plates) = ~13,000 samples to be sequenced from a single high-throughput short read sequencing run ([Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)). Here, we use this strategy to genotype clone derived cell samples with a minor modification in the design (; we performed a PCR prior to RCP-PCR to avoid ordering RCP-PCR primer sets for each target).   
+RCP(Row Column Plate)-PCR is capable of multiplexing up to 16 (Rows) x 24 (Columns) x 35 (Plates) = ~13,000 samples to be sequenced from a single high-throughput short read sequencing run ([Yachie et al](http://msb.embopress.org/content/12/4/863)). Here, we use this strategy to genotype clone derived cell samples with a minor modification in the design (; we performed a PCR prior to RCP-PCR to avoid ordering RCP-PCR primer sets for each target).   
 
 For each of the targets, we designed primers which would amplify a target region with a length less than 150 bp. We performed the first PCR with primers that flank a common RC-PCR primer landing site. The samples were purified in a 96-well format, and products were used as template for subsequent RCP-PCR procedures.
 The second PCR (Row Column-PCR) was performed with FWD primers with a Row index, and REV primers with a Column index, respectively. These RC-PCR primers were flanked with binding sites for the third PCR (Plate-PCR). Products from the second (Row Column-PCR) PCR were grouped together and purified to use for the third PCR (Plate-PCR), and sequenced in a high-throughput sequencing run.
@@ -16,7 +16,7 @@ The second PCR (Row Column-PCR) was performed with FWD primers with a Row index,
 We first identified the RCP-PCR indices and target region from each sequencing read. Simultaneously, the target region of the read is aligned to the wild-type sequence using the BLASTn software. The alignment result for de-multiplexed reads were aggregated to compute the allele frequency within each of the clone-derived sample. Any allele appearing less than 10% within each de-multiplexed sample was eliminated for further analysis to cancel out sequencing error. Finally, the remaining count data of each allele was used to identify the genotype of the isolated clones. Clones with frame-shift mutation on both alleles were used for further analysis.
 
 ### Reference
-- Yachie et al
+- [Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)
 - Suzuki et al (In preparation)
 
 
