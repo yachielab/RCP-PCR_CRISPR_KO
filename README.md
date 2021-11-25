@@ -17,7 +17,7 @@ We first identified the RCP-PCR indices and target region from each sequencing r
 
 ### Reference
 - [Yachie et al (2016) Molecular Systems Biology](http://msb.embopress.org/content/12/4/863)
-- Suzuki et al (In preparation)
+- [Suzuki et al (2021) npj Systems Biology and Applications](https://www.nature.com/articles/s41540-021-00190-w)
 
 
 
